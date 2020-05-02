@@ -4,9 +4,13 @@
 
 ## 目次
 [バンコクで身近なプロを見つける"_FindPro_"](#バンコクで身近なプロを見つける掲示板"_FindPro_")
+
 [バージョン](#バージョン)
+
 [機能一覧](#機能一覧)
+
 [設計資料](#設計資料)
+
 [使用予定gem](#使用予定gem)
 
 ---------------------------------------
@@ -70,17 +74,17 @@ https://drive.google.com/open?id=13505Rh7U1bYho7LxpJ89DCfyigJ7z4Qq
 ---------------------------------------
 
 ### 使用予定gem
-carrierwave
-mini_magic
-devise
-devise-i18n
-ransack
-rails_admin
-cancancan
-bootstrap 4.4.1'
-kaminari
-letter_opener_web
-bullet
-pry-rails
-better_errors
-binding_of_caller
+- carrierwave
+- mini_magic
+- devise
+- devise-i18n
+- ransack
+- rails_admin
+- cancancan
+- bootstrap 4.4.1'
+- kaminari
+- letter_opener_web
+- bullet
+- pry-rails
+- better_errors
+- binding_of_caller
