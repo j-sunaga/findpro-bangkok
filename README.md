@@ -77,7 +77,6 @@ https://drive.google.com/open?id=13505Rh7U1bYho7LxpJ89DCfyigJ7z4Qq
 - carrierwave
 - mini_magic
 - devise
-- devise-i18n
 - ransack
 - rails_admin
 - cancancan
@@ -88,3 +87,19 @@ https://drive.google.com/open?id=13505Rh7U1bYho7LxpJ89DCfyigJ7z4Qq
 - pry-rails
 - better_errors
 - binding_of_caller
+
+---------------------------------------
+
+### 使用予定技術
+
+【就業Termから少なくとも2つ】
+
+- AWS
+- devise
+- コメント機能
+- メッセージ機能
+
+【カリキュラム外から１つ以上】
+
+- rails_admin
+- ransack
