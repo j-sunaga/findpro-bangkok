@@ -92,14 +92,14 @@ https://drive.google.com/open?id=13505Rh7U1bYho7LxpJ89DCfyigJ7z4Qq
 
 ### 使用予定技術
 
-【就業Termから少なくとも2つ】
+【就業Term】
 
 - AWS
 - devise
 - コメント機能
 - メッセージ機能
 
-【カリキュラム外から１つ以上】
+【カリキュラム外】
 
 - rails_admin
 - ransack
