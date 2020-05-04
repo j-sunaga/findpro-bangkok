@@ -1,0 +1,58 @@
+<%= form_with(model: post, local: true) do |form| %>
+
+<% if post.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(post.errors.count, "Error") %> Failed to save Post:</h2>
+  <ul>
+    <% post.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <p><label>Post Title</label></p>
+    <input type="text" class="form-control input-form" name="post[title]" value="<%=@post.title%>">
+  </div>
+</div>
+
+<div class="row">
+  <div class="picture-image">
+    <div class="form-group">
+      <label>Image</label>
+      <%= form.file_field :post_image %>
+      <%= form.hidden_field :image_cache %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <p><label>Detail</label></p>
+    <textarea class="form-control input-form" name="post[detail]" rows="5"><%=@post.detail%></textarea>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <label>Deadline</label>
+    <input type="date" class="form-control input-form" name="post[deadline]" value="<%=@post.deadline%>">
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <p><label>Status</label></p>
+    <%= form.select :status, Post.statuses.keys.to_a, {}, {class: 'form-control input-form'} %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-md-6">
+    <button type="submit" class="btn btn-primary" name="commit">登録</button>
+  </div>
+</div>
+
+<% end %>
