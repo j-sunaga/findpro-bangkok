@@ -17,6 +17,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
+      SignupMailer.signup_mail('Sunaga').deliver
       redirect_to @post, notice: 'タスクの登録が完了しました'
     else
       render :new

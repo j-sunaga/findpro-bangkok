@@ -26,6 +26,7 @@ gem 'devise'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'letter_opener_web'
   # Debug
   gem 'better_errors'
   gem 'binding_of_caller'
