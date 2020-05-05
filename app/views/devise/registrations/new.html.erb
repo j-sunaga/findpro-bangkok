@@ -14,9 +14,11 @@
 </div>
 
 <div class="field">
-  <%= f.label :profile_photo %><br />
+  <%= f.label :profile_image %><br>
   <%= f.file_field :profile_image %>
+  <%= f.hidden_field :profile_image_cache %>
 </div>
+
 
 <div class="field">
   <%= f.label :content %><br />

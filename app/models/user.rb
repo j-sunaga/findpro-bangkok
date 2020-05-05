@@ -9,4 +9,6 @@ class User < ApplicationRecord
   validates :applicant_or_recruiter, presence: true
   enum applicant_or_recruiter: { applicant: 0, recruiter: 1 }
 
+  mount_uploader :profile_image, ProfileImageUploader
+
 end
