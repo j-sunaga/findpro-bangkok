@@ -3,4 +3,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  validates :name, presence: true, length: { in: 1..50 }
+  validates :content, length: { in: 1..1000 }
+  validates :applicant_or_recruiter, presence: true
+  enum applicant_or_recruiter: { applicant: 0, recruiter: 1 }
+
 end
