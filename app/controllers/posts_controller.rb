@@ -1,7 +1,8 @@
-class PostsController < ApplicationController
+# frozen_string_literal: true
 
+class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: %i[new edit update destroy]
 
   def index
     @posts = Post.all
@@ -16,9 +17,8 @@ class PostsController < ApplicationController
   def edit; end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
     if @post.save
-      SignupMailer.signup_mail('Sunaga').deliver
       redirect_to @post, notice: 'タスクの登録が完了しました'
     else
       render :new
@@ -34,8 +34,15 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy!
-    redirect_to posts_url, notice: 'タスクを削除しました'
+    if current_user.id == @post.recruiter.id
+      if @post.destroy!
+        redirect_to posts_url, notice: 'タスクを削除しました'
+      else
+        redirect_to posts_url, notice: 'Failed to Delete'
+      end
+    else
+      redirect_to posts_url, notice: 'No Permission to delete'
+    end
   end
 
   private
@@ -47,5 +54,4 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status)
   end
-
 end
