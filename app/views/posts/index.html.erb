@@ -19,7 +19,7 @@
       <tr>
         <td class="post_row"><%= post.title %></td>
         <td><%= post.detail %></td>
-        <td><%= post.post_image %></td>
+        <td><img src="<%=post.post_image.thumb.url%>" alt="" class="picture-image"></td>
         <td><%= post.status %></td>
         <td><%= post.deadline %></td>
         <td><%= link_to '詳細', post %></td>
