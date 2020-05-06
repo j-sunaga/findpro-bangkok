@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :posts, foreign_key: :recruiter_id
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -10,5 +11,4 @@ class User < ApplicationRecord
   enum applicant_or_recruiter: { applicant: 0, recruiter: 1 }
 
   mount_uploader :profile_image, ImageUploader
-
 end
