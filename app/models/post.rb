@@ -6,6 +6,9 @@ class Post < ApplicationRecord
   belongs_to :recruiter, class_name: 'User', foreign_key: :recruiter_id
   has_many :bookmarks, dependent: :destroy
   has_many :bookmark_users, through: :bookmarks, source: :user
+  has_many :applications, dependent: :destroy
+  has_many :application_users, through: :applications, source: :user
+
   validates :title, presence: true, length: { in: 1..50 }
   validates :detail, length: { in: 1..1000 }
   validates :status, presence: true

@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_many :posts, foreign_key: :recruiter_id
   has_many :bookmarks, dependent: :destroy
   has_many :bookmark_posts, through: :bookmarks, source: :post
+  has_many :applications, dependent: :destroy
+  has_many :application_posts, through: :applications, source: :post
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
