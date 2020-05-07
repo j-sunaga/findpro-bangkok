@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :bookmark_posts, through: :bookmarks, source: :post
   has_many :applications, dependent: :destroy
   has_many :application_posts, through: :applications, source: :post
+  has_many :category_users, dependent: :destroy
+  has_many :categories, through: :category_users, source: :category
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
