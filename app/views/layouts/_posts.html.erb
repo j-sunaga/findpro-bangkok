@@ -12,7 +12,7 @@
         <th>Status</th>
         <th>Deadline</th>
         <th>Recruiter</th>
-        <th colspan="4"></th>
+        <th colspan="5"></th>
       </tr>
     </thead>
     <tbody>
@@ -29,6 +29,11 @@
           <td><a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>un-bookmark</a></td>
         <% else %>
           <td><a href="/bookmarks?post_id=<%=post.id %>" data-method=post>bookmark</a></td>
+        <% end %>
+        <% if my_application = current_user.applications.find_by(post_id: post.id) %>
+          <td><a href="/applications/<%=my_application.id%>" data-method=delete>Cancel</a></td>
+        <% else %>
+        <td><a href="/applications?post_id=<%=post.id %>" data-method=post>Apply!</a></td>
         <% end %>
         <td><%= link_to 'edit', edit_post_path(post) %></td>
         <td><%= link_to 'destroy', post, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' } %></td>
