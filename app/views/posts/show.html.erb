@@ -34,6 +34,16 @@
   </div>
 </div>
 
+  <div class="row">
+    <div class="form-group col-md-6">
+      <% @post.categories.each do |category| %>
+        <%= form.check_box :category_ids, { multiple: true, checked: @post.category_ids.include?(category.id),disabled: category[:disabled], include_hidden: false }, category[:id],readonly: true %>
+        <label class='badge badge-secondary'><%= category.name %></label>
+      <% end %>
+    </div>
+  </div>
+
+
 <div class="row">
   <div class="form-group col-md-6 col-xs-12">
     <%= link_to '編集', edit_post_path(@post) %>

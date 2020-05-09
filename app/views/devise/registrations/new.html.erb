@@ -30,6 +30,15 @@
   <%= f.text_field :applicant_or_recruiter, autofocus: true %>
 </div>
 
+  <div class="row">
+    <div class="form-group col-md-6">
+      <% Category.all.each do |category| %>
+        <%= f.check_box :category_ids, { multiple: true, checked: @user.category_ids.include?(category.id),disabled: category[:disabled], include_hidden: false }, category[:id] %>
+        <label class='badge badge-secondary'><%= category.name %></label>
+      <% end %>
+    </div>
+  </div>
+
 <div class="field">
   <%= f.label :password %>
   <% if @minimum_password_length %>

@@ -49,6 +49,16 @@
   </div>
 </div>
 
+  <div class="row">
+    <div class="form-group col-md-6">
+      <% Category.all.each do |category| %>
+        <%= form.check_box :category_ids, { multiple: true, checked: @post.category_ids.include?(category.id),disabled: category[:disabled], include_hidden: false }, category[:id] %>
+        <label class='badge badge-secondary'><%= category.name %></label>
+      <% end %>
+    </div>
+  </div>
+
+
 <div class="row">
   <div class="form-group col-md-6">
     <button type="submit" class="btn btn-primary" name="commit">登録</button>

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   before_action :authenticate_user!, only: %i[new edit update destroy]
@@ -52,6 +50,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status)
+    params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status, category_ids: [])
   end
 end
