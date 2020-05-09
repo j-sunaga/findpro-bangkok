@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :application_posts, through: :applications, source: :post
   has_many :category_users, dependent: :destroy
   has_many :categories, through: :category_users, source: :category
+  has_many :comments, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

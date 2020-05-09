@@ -10,6 +10,7 @@ class Post < ApplicationRecord
   has_many :application_users, through: :applications, source: :user
   has_many :category_posts, dependent: :destroy
   has_many :categories, through: :category_posts, source: :category
+  has_many :comments, dependent: :destroy
 
   validates :title, presence: true, length: { in: 1..50 }
   validates :detail, length: { in: 1..1000 }
