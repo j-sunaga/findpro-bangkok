@@ -1,0 +1,47 @@
+<%= form_with(model: category, local: true) do |form| %>
+
+  <% if category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@category.errors.count, "エラー") %> タスクの保存に失敗しました:</h2>
+      <ul>
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="form-group col-md-6">
+      <p><label>category名</label></p>
+      <input type="text" class="form-control input-form" name="category[name]" value="<%=@category.name%>">
+    </div>
+  </div>
+
+    <div class="row">
+    <div class="form-group col-md-6">
+    <p>ユーザ一覧</p>
+      <% User.all.each do |user| %>
+        <%= form.check_box :user_ids, { multiple: true, checked: @category.user_ids.include?(user.id),disabled: user[:disabled], include_hidden: false }, user[:id] %>
+        <label class='badge badge-secondary'><%= user.name %></label>
+      <% end %>
+    </div>
+  </div>
+
+    <div class="row">
+    <div class="form-group col-md-6">
+    <p>投稿一覧</p>
+      <% Post.all.each do |post| %>
+        <%= form.check_box :post_ids, { multiple: true, checked: @category.post_ids.include?(post.id),disabled: post[:disabled], include_hidden: false }, post[:id] %>
+        <label class='badge badge-secondary'><%= post.title %></label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-md-6">
+      <button type="submit" class="btn btn-primary" name="commit">登録</button>
+    </div>
+  </div>
+
+<% end %>
