@@ -6,7 +6,10 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
-  def show; end
+  def show
+    @comments = @post.comments
+    @comment = @post.comments.build
+  end
 
   def new
     @post = Post.new

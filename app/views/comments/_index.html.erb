@@ -1,0 +1,13 @@
+  <div class="row">
+    <div class="form-group col-md-6">
+      <% comments.each do |comment| %>
+      <div id="comment-<%=comment.id%>">
+        <hr>
+        <p> comment : <%=comment.content%></p>
+        <p> date : <%=comment.created_at %>
+        <%= link_to "DELETE", post_comment_path(post_id: post.id, comment_id: comment.id), method: :delete %>
+        <hr>
+      </div>
+      <% end %>
+    </div>
+  </div>

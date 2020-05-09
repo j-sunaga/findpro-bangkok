@@ -36,13 +36,17 @@
 
   <div class="row">
     <div class="form-group col-md-6">
+    <p>Category</p>
       <% @post.categories.each do |category| %>
-        <%= form.check_box :category_ids, { multiple: true, checked: @post.category_ids.include?(category.id),disabled: category[:disabled], include_hidden: false }, category[:id],readonly: true %>
         <label class='badge badge-secondary'><%= category.name %></label>
       <% end %>
     </div>
   </div>
+  <div id="comments_area">
+    <%= render partial: 'comments/index', locals: { comments: @comments, post: @post } %>
+  </div>
 
+  <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
 
 <div class="row">
   <div class="form-group col-md-6 col-xs-12">

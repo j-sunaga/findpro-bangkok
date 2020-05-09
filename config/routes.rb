@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'posts#index'
   devise_for :users
-  resources :posts
+  resources :posts do
+     resources :comments
+  end
   resources :bookmarks, only: %i[index create destroy]
   resources :applications, only: %i[index show create destroy]
   resources :categories
