@@ -43,7 +43,8 @@
     </div>
   </div>
   <div id="comments_area">
-    <%= render partial: 'comments/index', locals: { comments: @comments, post: @post } %>
+  <h2>comments</h2>
+    <%= render partial: 'comments/index', locals: { comments: @comments, post: @post, comment_reply: @comment } %>
   </div>
 
   <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
