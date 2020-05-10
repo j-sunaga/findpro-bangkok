@@ -11,10 +11,10 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    post = Post.find(params[:post_id])
-    @comment = post.comments.find(params[:comment_id])
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.find(params[:id])
     if @comment.destroy
-      format.js { render :destroy }
+      redirect_to post_path(@post)
     else
       format.html { redirect_to post_path(@comment.post), notice: '投稿できませんでした...' }
     end
@@ -23,6 +23,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :post_id, :user_id)
+    params.require(:comment).permit(:content, :post_id, :user_id, :parent_id)
   end
 end
