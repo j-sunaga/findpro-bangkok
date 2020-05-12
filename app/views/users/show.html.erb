@@ -1,0 +1,38 @@
+<div class="container">
+  <h4><%= @user.name %> Info</h4>
+  <form>
+
+<div class="row">
+  <div class="picture-img">
+    <img src="<%=@user.profile_image.post_detail.url%>" alt="" class="picture-image">
+  </div>
+</div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>ユーザ名</label>
+        <input type="text" readonly class="form-control" name="user[name]" value="<%=@user.name%>">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Eメール</label>
+        <input type="text" readonly class="form-control" name="user[email]" value="<%=@user.email%>">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Eメール</label>
+        <input type="text" readonly class="form-control" name="user[content]" value="<%=@user.content%>">
+      </div>
+    </div>
+
+    <% if @user.id == current_user.id %>
+    <%= link_to 'edit', edit_user_registration_path(@user) %> |
+    <% end %>
+    <%= link_to 'back', posts_path %>
+
+  </form>
+</div>
