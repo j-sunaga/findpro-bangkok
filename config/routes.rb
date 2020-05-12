@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[show]
   resources :posts do
     resources :comments
-    collection do
-    get 'myposts'
-    end
+    get 'myposts', on: :collection
   end
   resources :bookmarks, only: %i[index create destroy]
   resources :applications, only: %i[index show create destroy]
