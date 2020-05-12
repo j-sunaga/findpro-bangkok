@@ -13,6 +13,7 @@ class PostsController < ApplicationController
   def show
     @comments = @post.comments
     @comment = @post.comments.build
+    @application_users = @post.application_users
   end
 
   def new

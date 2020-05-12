@@ -49,6 +49,10 @@
 
   <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
 
+  <% if @post.recruiter.id == current_user.id %>
+  <%= render partial: 'applications/application_users', locals: { application_users: @application_users } %>
+  <% end %>
+
 <div class="row">
   <div class="form-group col-md-6 col-xs-12">
     <%= link_to '編集', edit_post_path(@post) %>

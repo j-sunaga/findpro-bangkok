@@ -1,0 +1,26 @@
+<div class="row">
+  <h4> Application Users </h4>
+</div>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Name</th>
+        <th>Photo</th>
+        <th>detail</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @application_users.each do |user| %>
+      <tr>
+        <td class="user_row"><%= user.name %></td>
+        <td><img src="<%=user.profile_image.thumb.url%>" alt="" class="picture-image"></td>
+        <td><%= user.content %></td>
+        <td><%= link_to 'detail', user %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
