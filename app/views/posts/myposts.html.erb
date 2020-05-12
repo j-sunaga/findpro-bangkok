@@ -1,0 +1,8 @@
+<div class="row">
+  <h4>My Recruiting Posts<h4>
+</div>
+
+<%= render 'layouts/posts', collection: @posts %>
+
+<p class="navbar-text"><%= link_to "new post", new_post_path %></p>
+<p class="navbar-text"><%= link_to 'back', posts_path %></p>
