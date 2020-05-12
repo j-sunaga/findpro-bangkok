@@ -25,6 +25,7 @@
         <td><%= post.deadline.strftime("%Y-%m-%d")%></td>
         <td><%= post.recruiter.name %></td>
         <td><%= link_to 'detail', post %></td>
+        <% if post.recruiter.id != current_user.id %>
         <% if my_bookmark = current_user.bookmarks.find_by(post_id: post.id) %>
           <td><a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>un-bookmark</a></td>
         <% else %>
@@ -35,8 +36,10 @@
         <% else %>
         <td><a href="/applications?post_id=<%=post.id %>" data-method=post>Apply!</a></td>
         <% end %>
+        <% else %>
         <td><%= link_to 'edit', edit_post_path(post) %></td>
         <td><%= link_to 'destroy', post, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' } %></td>
+        <% end %>
       </tr>
       <% end %>
     </tbody>
