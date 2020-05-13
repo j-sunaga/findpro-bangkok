@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   end
 
   def myposts
-    @posts = current_user.posts
+    @posts = current_user.recruiting_posts
   end
 
   def show

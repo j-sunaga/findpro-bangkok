@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_042457) do
+ActiveRecord::Schema.define(version: 2020_05_13_022916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,7 +73,9 @@ ActiveRecord::Schema.define(version: 2020_05_10_042457) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "recruiter_id"
+    t.bigint "selected_user_id"
     t.index ["recruiter_id"], name: "index_posts_on_recruiter_id"
+    t.index ["selected_user_id"], name: "index_posts_on_selected_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,4 +104,5 @@ ActiveRecord::Schema.define(version: 2020_05_10_042457) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users", column: "recruiter_id"
+  add_foreign_key "posts", "users", column: "selected_user_id"
 end
