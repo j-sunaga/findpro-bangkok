@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   class << self; undef :open; end
 
   belongs_to :recruiter, class_name: 'User', foreign_key: :recruiter_id
-  belongs_to :selected_user, class_name: 'User', foreign_key: :selected_user_id
+  belongs_to :selected_user, class_name: 'User', optional: true, foreign_key: :selected_user_id
   has_many :bookmarks, dependent: :destroy
   has_many :bookmark_users, through: :bookmarks, source: :user
   has_many :applications, dependent: :destroy
