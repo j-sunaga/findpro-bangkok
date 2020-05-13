@@ -16,7 +16,16 @@ class Post < ApplicationRecord
   validates :title, presence: true, length: { in: 1..50 }
   validates :detail, length: { in: 1..1000 }
   validates :status, presence: true
+  validates :deadline, presence: true
+  validate :deadline_cannot_save_in_the_past
 
   enum status: { open: 0, closed: 1 }
   mount_uploader :post_image, ImageUploader
+
+  def deadline_cannot_save_in_the_past
+    if deadline.present? && deadline <= DateTime.now - 1.day
+      errors.add(:deadline, ": Cannot save in the past")
+    end
+  end
+
 end
