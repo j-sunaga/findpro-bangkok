@@ -50,7 +50,7 @@
   <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
 
   <% if @post.recruiter.id == current_user.id %>
-  <%= render partial: 'applications/application_users', locals: { application_users: @application_users } %>
+  <%= render partial: 'applications/application_users', locals: { application_users: @application_users, post: @post } %>
   <% end %>
 
 <div class="row">
