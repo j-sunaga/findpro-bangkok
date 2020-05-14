@@ -8,8 +8,10 @@
       <tr>
         <th>Name</th>
         <th>Photo</th>
+        <th>Content</th>
         <th>detail</th>
-        <th colspan="2"></th>
+        <th>Message</th>
+        <th colspan="1"></th>
       </tr>
     </thead>
     <tbody>
@@ -19,6 +21,13 @@
         <td><img src="<%=user.profile_image.thumb.url%>" alt="" class="picture-image"></td>
         <td><%= user.content %></td>
         <td><%= link_to 'detail', user %></td>
+        <td>
+          <% if user.id != current_user.id %>
+              <div class="item">
+                <%= link_to 'message', conversations_path(sender_id: current_user.id, recipient_id: user.id), method: :post %>
+              </div>
+          <% end %>
+        </td>
         <% if post.selected_user_id.blank? %>
         <td><a href="/posts/<%=post.id%>/select_user?selected_user_id=<%=user.id %>&status=closed" data-method=post>Assign</a></td>
         <% else %>
