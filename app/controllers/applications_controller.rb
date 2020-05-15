@@ -1,4 +1,6 @@
 class ApplicationsController < ApplicationController
+  before_action :check_applicant
+
   def create
     application = current_user.applications.build(post_id: params[:post_id])
     if application.save

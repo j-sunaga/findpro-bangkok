@@ -1,4 +1,7 @@
 class BookmarksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :check_applicant
+
   def index
     @posts = current_user.bookmark_posts
   end

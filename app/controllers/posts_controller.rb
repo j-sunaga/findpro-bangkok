@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update select_user destroy]
-  before_action :authenticate_user!, only: %i[new edit update destroy]
+  before_action :authenticate_user!, only: %i[index new edit update destroy]
+  before_action :check_recruiter, only: %i[myposts select_user new edit update destroy]
 
   def index
     @posts = Post.all
@@ -69,4 +70,5 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status,:selected_user_id,:recruiter_id, category_ids: [])
   end
+
 end
