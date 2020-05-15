@@ -25,4 +25,21 @@ class User < ApplicationRecord
   enum applicant_or_recruiter: { applicant: 0, recruiter: 1 }
 
   mount_uploader :profile_image, ImageUploader
+
+  def recruiter?
+    if self.applicant_or_recruiter == 'recruiter'
+      true
+    else
+      false
+    end
+  end
+
+  def applicant?
+    if self.applicant_or_recruiter == 'applicant'
+      true
+    else
+      false
+    end
+  end
+
 end

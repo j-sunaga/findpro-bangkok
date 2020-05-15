@@ -12,16 +12,19 @@
 
 <body>
   <% if user_signed_in? %>
-  <%= link_to "#{current_user.email}", posts_path %>
-  <%= link_to "投稿一覧", posts_path %>
-  <%= link_to "Bookmark", bookmarks_path %>
-  <%= link_to "Applied Posts", applications_path %>
-  <%= link_to "My Recruiting Posts", myposts_posts_path %>
-  <%= link_to "Messages", conversations_path %>
-  <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <%= link_to "#{current_user.email}", posts_path %>
+    <%= link_to "All Posts", posts_path %>
+    <% if current_user.applicant? %>
+      <%= link_to "Bookmark", bookmarks_path %>
+      <%= link_to "Applied", applications_path %>
+    <% else %>
+      <%= link_to "My Recruiting Posts", myposts_posts_path %>
+    <% end %>
+    <%= link_to "Messages", conversations_path %>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete %>
   <% else %>
-  <%= link_to "新規登録", new_user_registration_path %>
-  <%= link_to "ログイン", new_user_session_path %>
+    <%= link_to "Sign-up", new_user_registration_path %>
+    <%= link_to "Login", new_user_session_path %>
   <% end %>
 
   <p class="notice"><%= notice %></p>

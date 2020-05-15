@@ -4,4 +4,6 @@
 
 <%= render 'layouts/posts', collection: @posts %>
 
+<% if current_user.recruiter? %>
 <p class="navbar-text"><%= link_to "new post", new_post_path %></p>
+<% end %>
