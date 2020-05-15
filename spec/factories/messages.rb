@@ -4,10 +4,8 @@ FactoryBot.define do
       "message_#{n}"
     end
 
-    after(:build) do |message|
-      message.conversation = create(:conversation)
-      message.user = message.conversation.sender
-    end
+    conversation
+    user { conversation.sender }
 
   end
 end
