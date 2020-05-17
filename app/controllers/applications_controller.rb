@@ -1,4 +1,5 @@
 class ApplicationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :check_applicant
 
   def create
