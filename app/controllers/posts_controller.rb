@@ -4,7 +4,8 @@ class PostsController < ApplicationController
   before_action :check_recruiter, only: %i[myposts select_user new edit update destroy]
 
   def index
-    @posts = Post.all
+      @posts = Post.all
+      @categories = Category.all
   end
 
   def myposts
