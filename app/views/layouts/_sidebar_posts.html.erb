@@ -1,0 +1,24 @@
+<div class="col-md-2 align-center">
+  <h4>サイドメニュー</h4>
+  <div class="sidemenu">
+    <%= form_with url:'/posts', method: :get, local: true do |f| %>
+    <%= f.hidden_field :search, value: 'true' %>
+    <div class="row clearfix">
+      <div class="form-group search_form clearfix">
+        <input type="text" class="form-control keyword-form clearfix" name="name" value="" placeholder="タスク名検索ワード">
+      </div>
+      <div class="form-group search_form clearfix">
+        <select class="form-control keyword-form clearfix" name="category">
+          <option value="" style="display: none;">ラベル検索</option>
+          <option value=""></option>
+          <% @categories.each do |category| %>
+          <option value=<%=category.name%>><%=category.name%></option>
+          <% end %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary search-btn" name="commit">検索</button>
+    </div>
+    <% end %>
+
+  </div>
+</div>

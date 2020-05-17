@@ -1,9 +1,14 @@
-<div class="row">
-  <h4> Recruiting Posts </h4>
+<div class="row title-box">
+  <h2 class="page-title"> Recruiting Posts </h2>
+  <p class="page-description"> Strong in Bangkok! FindPro help to find professional in Bangkok.</p>
 </div>
 
-<%= render 'layouts/posts', collection: @posts %>
+<div class="container-fluid">
+  <div class="row">
 
-<% if current_user.recruiter? %>
-<p class="navbar-text"><%= link_to "new post", new_post_path %></p>
-<% end %>
+    <%= render 'layouts/sidebar_posts', collection: @labels %>
+
+    <%= render 'layouts/posts', collection: @posts %>
+
+  </div>
+</div>
