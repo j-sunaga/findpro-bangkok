@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
   before_action :check_same_user, only: %i[create]
 
   def index
-    @conversations = Conversation.all
+    @conversations = Conversation.user_conversation(current_user.id)
   end
 
   def create
