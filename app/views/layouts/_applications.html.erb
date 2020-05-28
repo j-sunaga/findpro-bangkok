@@ -1,0 +1,10 @@
+<tbody>
+  <% @posts.each do | post | %>
+  <tr>
+    <td><%= link_to "#{post.title}", post %></td>
+    <td><%= post.recruiter.name %></td>
+    <td><%= post.applications.count%></td>
+    <td><%= post.status %></td>
+  </tr>
+  <% end %>
+</tbody>

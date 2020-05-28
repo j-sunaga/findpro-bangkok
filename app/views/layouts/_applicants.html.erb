@@ -1,0 +1,35 @@
+<!-- タイムライン表示画面 -->
+<div class="col-md-8">
+  <% @users.each {|user| %>
+  <a href="/users/<%=user.id%>" class="post-link stretched-link">
+    <div class="post mdl-shadow--2dp card clearfix">
+      <div class="work-icon">
+        <img src="<%=user.profile_image%>" alt="">
+      </div>
+      <div class="work-text">
+        <div class="clearfix">
+          <div class="post-text">
+            <p class="post-title clearfix"><%= user.name %></p>
+          </div>
+          <div class="detail clearfix">
+            <div class="detail">
+              Detail : <%= user.content %>
+            </div>
+          </div>
+          <div class="job-category">
+            <p>Category :
+              <% user.categories.each do |category| %>
+              <span class="mdl-chip"><span class="mdl-chip__text">
+                  <%= category.name %>
+                </span>
+              </span>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+  <% } %>
+  <div><%= paginate @users, left: 1, right: 3 %></div>
+</div>
