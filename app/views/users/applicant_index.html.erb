@@ -1,0 +1,10 @@
+<div class="container-fluid main-content">
+  <div class="row title-box">
+    <h2 class="page-title"> All Professional </h2>
+    <p class="page-description"> Strong in Bangkok! FindPro help to find professional in Bangkok.</p>
+  </div>
+  <div class="row">
+    <%= render 'layouts/sidebar_applicants', collection: @labels %>
+    <%= render 'layouts/applicants', collection: @users %>
+  </div>
+</div>
