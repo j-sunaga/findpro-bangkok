@@ -1,0 +1,18 @@
+<tbody>
+  <% @conversations.each do |conversation| %>
+  <tr>
+    <td>
+      <% if conversation.target_user(current_user).present? %>
+      <% if conversation.new_message.present? %>
+      <%= link_to "aaa", conversation_messages_path(conversation)%>
+      <%  else %>
+      <%= link_to 'send message', conversation_messages_path(conversation)%>
+      <% end %>
+      <% end %>
+    </td>
+    <td><%= conversation.sender.name %></td>
+    <td><%= conversation.recipient.name %></td>
+    <td><%= conversation.new_message.created_at.strftime("%Y-%m-%d %H:%M") if conversation.new_message.present? %></td>
+  </tr>
+  <% end %>
+</tbody>

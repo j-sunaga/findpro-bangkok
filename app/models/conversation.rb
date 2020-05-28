@@ -17,6 +17,11 @@ class Conversation < ApplicationRecord
       User.find(sender_id)
     end
   end
+
+  def new_message
+    messages.last
+  end
+
   def conversation_cannot_start_same_user
     if sender_id == recipient_id
       errors.add(:expiration_date, ': can not start conversation with yourself')

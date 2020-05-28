@@ -1,32 +1,48 @@
-<% if @over_ten %>
-  <%= link_to 'old messages', '?m=all' %>
-<% end %>
-<div class="ui segment">
-  <% @messages.each do |message| %>
-    <% if message.body.present? %>
-      <div class="item">
-        <div class="content">
-          <div class="header"><strong><%= message.user.name %></strong> <%= message.message_time %></div>
-          <div class="list">
-            <div class="item">
-              <i class="right triangle icon"></i>
-              <%= message.body %> /
-              <% if message.user == current_user %>
-                <%= message.read ? 'Read' : 'Unread' %>
-              <% end %>
-            </div>
+<div class="container main-content" <% if @over_ten %> <%= link_to 'old messages', '?m=all' %> <% end %> <div class="row">
+  <div class="col-md-9">
+    <div class="message-view">
+      <div>Conversation :
+        <div class="participants"><%=@conversation.sender.name %></div>
+        <div class="participants"><%=@conversation.recipient.name %></div>
+      </div>
+      <div class="message-message">
+        <% @messages.each do |message| %>
+        <% if message.user_id != current_user.id %>
+        <div class="message_left_box">
+          <div>
+            <%=message.user.name %> <%= message.created_at.strftime("%m/%d/%y at %l:%M %p") %>
+          </div>
+          <div class="_message_left mdl-shadow--2dp">
+            <div><%= message.body %></div>
           </div>
         </div>
+        <% else %>
+        <div class="message_right_box">
+          <div>
+            <%=message.user.name %> <%= message.created_at.strftime("%m/%d/%y at %l:%M %p") %>
+          </div>
+          <div class="_message_right mdl-shadow--2dp">
+            <div><%= message.body %></div>
+          </div>
+          <div class="read-status">
+            <%= message.read ? 'Read' : 'Unread' %>
+          </div>
+        </div>
+        <% end %>
+        <% end %>
       </div>
-    <% end %>
-  <% end %>
+    </div>
+    <div id="message-input">
+      <%= form_with(model: [@conversation, @message]) do |f| %>
+      <div style="width: 70%;">
+        <%= f.text_area :body, class: "form-control", rows: 6, placeholder: "メッセージを書く" %>
+      </div>
+      <%= f.text_field :user_id, value: current_user.id, type: "hidden"  %>
+      <div>
+        <button id="message-send-button" type="submit" data-target="message-form" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue">Send Message</button>
+      </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-<%= form_with(model: [@conversation, @message]) do |f| %>
-  <div class="field">
-    <%= f.text_area :body, class: "form-control" %>
-  </div>
-    <%= f.text_field :user_id, value: current_user.id, type: "hidden"  %>
-  <div>
-    <%= f.submit "メッセージを送る" %>
-  </div>
-<% end %>
+</div>
