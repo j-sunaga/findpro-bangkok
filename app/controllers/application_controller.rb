@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    user_attributes = [:name, :profile_image, :profile_image_cache, :remove_profile_image, :content, :applicant_or_recruiter, :admin, category_ids: []]
-    devise_parameter_sanitizer.permit(:sign_up, keys: user_attributes)
+    user_attributes = [:sign_in,:name, :profile_image, :profile_image_cache, :remove_profile_image, :content, :applicant_or_recruiter, :admin, category_ids: []]
+    devise_parameter_sanitizer.permit(:sign_up,keys: user_attributes)
   end
 
   def after_sign_out_path_for(resource_or_scope)
