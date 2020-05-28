@@ -1,14 +1,10 @@
-<div class="row title-box">
-  <h2 class="page-title"> Recruiting Posts </h2>
-  <p class="page-description"> Strong in Bangkok! FindPro help to find professional in Bangkok.</p>
-</div>
-
-<div class="container-fluid">
+<div class="container-fluid main-content">
+  <div class="row title-box">
+    <h2 class="page-title"> Recruiting Posts </h2>
+    <p class="page-description"> Strong in Bangkok! FindPro help to find professional in Bangkok.</p>
+  </div>
   <div class="row">
-
     <%= render 'layouts/sidebar_posts', collection: @labels %>
-
     <%= render 'layouts/posts', collection: @posts %>
-
   </div>
 </div>

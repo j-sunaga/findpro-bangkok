@@ -4,8 +4,8 @@ class PostsController < ApplicationController
   before_action :check_recruiter, only: %i[myposts select_user new edit update destroy]
 
   def index
-      @posts = Post.all
-      @categories = Category.all
+    @posts = Post.page(params[:page]).all
+    @categories = Category.all
   end
 
   def myposts
@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def select_user
-    if  @post.update(selected_user_id: params[:selected_user_id], status: params[:status])
+    if @post.update(selected_user_id: params[:selected_user_id], status: params[:status])
       AssignMailer.assign_mail(User.find(params[:selected_user_id]), @post).deliver
       redirect_back(fallback_location: root_path, notice: 'Assign User!')
     else
@@ -69,7 +69,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status,:selected_user_id,:recruiter_id, category_ids: [])
+    params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status, :selected_user_id, :recruiter_id, category_ids: [])
   end
-
 end
