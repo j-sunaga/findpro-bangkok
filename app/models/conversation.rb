@@ -6,6 +6,10 @@ class Conversation < ApplicationRecord
   validates_uniqueness_of :sender_id, scope: :recipient_id
   validate :conversation_cannot_start_same_user
 
+  scope :between, lambda { |sender_id, recipient_id|
+    where('(conversations.sender_id = ? AND conversations.recipient_id =?) OR (conversations.sender_id = ? AND  conversations.recipient_id =?)', sender_id, recipient_id, recipient_id, sender_id)
+  }
+
   scope :user_conversation, lambda { |user_id|
     where('(conversations.sender_id = ?) OR (conversations.recipient_id =?)', user_id, user_id)
   }
