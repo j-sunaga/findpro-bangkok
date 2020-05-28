@@ -1,7 +1,7 @@
 <div class="user-search-left col-md-2 align-center clearfix">
   <h4>サイドメニュー</h4>
   <div class="sidemenu">
-    <%= form_with url:'/posts', method: :get, local: true do |f| %>
+    <%= form_with url:'/users/applicants_index', method: :get, local: true do |f| %>
     <%= f.hidden_field :search, value: 'true' %>
     <div class="row clearfix">
       <div class="form-group search_form clearfix">
