@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :comments
     get 'myposts', on: :collection
     post 'select_user', on: :member
+    get 'application_users', on: :member
   end
   resources :bookmarks, only: %i[index create destroy]
   resources :applications, only: %i[index show create destroy]

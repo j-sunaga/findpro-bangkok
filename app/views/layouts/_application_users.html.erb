@@ -1,0 +1,19 @@
+   <tbody>
+     <% users.each do |user| %>
+     <tr>
+       <td class="user-row"><%= link_to "#{user.name}", user %></td>
+       <td><%= user.applications.find_by(post_id: post.id).created_at.strftime("20%y/%m/%d") %></td>
+       <td><%= link_to 'message', conversations_path(sender_id: current_user.id, recipient_id: user.id), method: :post %>
+       </td>
+       <% if post.selected_user_id.blank? %>
+       <td><a href="/posts/<%=post.id%>/select_user?selected_user_id=<%=user.id %>" data-method=post>Assign</a></td>
+       <% else %>
+       <% if post.selected_user_id == user.id %>
+       <td>Assigned</td>
+       <% else %>
+       <td></td>
+       <% end %>
+       <% end %>
+     </tr>
+     <% end %>
+   </tbody>

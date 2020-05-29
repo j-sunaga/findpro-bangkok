@@ -21,6 +21,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def application_users
+    @post = current_user.recruiting_posts.find(params[:id])
+    @users = @post.application_users
+  end
+
   def show
     @comments = @post.comments
     @comment = @post.comments.build

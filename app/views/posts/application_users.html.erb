@@ -1,0 +1,29 @@
+<div class="container main-content">
+  <div class="row contract">
+    <div class="title">
+      <p><%= @post.title %></p>
+    </div>
+  </div>
+
+  <div id="lists">
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th class="col-md-4">Name</th>
+          <th class="col-md-2">Applied Date</th>
+          <th class="col-md-2"></th>
+          <th class="col-md-2"></th>
+        </tr>
+        </thead>
+        <% if @users.present? %>
+        <%= render partial:'layouts/application_users', locals: {users: @users, post: @post} %>
+        <% else %>
+        <h4>No Applied User</h4>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <%= link_to 'back', posts_path %>
+  </div>
+</div>
