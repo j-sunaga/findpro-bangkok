@@ -1,61 +1,136 @@
-<h4>Post Detail</h4>
+<div class="container main-content">
+  <div class="main-box">
 
-<div class="row">
-  <div class="form-group col-md-6 col-xs-12">
-    <label>タスク</label>
-    <input type="text" readonly class="form-control show-form" value="<%=@post.title%>">
-  </div>
-</div>
 
-<div class="row">
-  <div class="picture-img">
-    <img src="<%=@post.post_image.post_detail.url%>" alt="" class="picture-image">
-  </div>
-</div>
-
-<div class="row">
-  <div class="form-group col-md-6 col-xs-12">
-    <label>Post Detail</label>
-    <textarea readonly class="form-control show-form" name="post[detail]" rows="5"><%=@post.detail%></textarea>
-  </div>
-</div>
-
-<div class="row">
-  <div class="form-group col-md-6 col-xs-12">
-    <label>終了期限</label>
-    <input type="date" readonly class="form-control show-form" value="<%=@post.deadline%>">
-  </div>
-</div>
-
-<div class="row">
-  <div class="form-group col-md-6 col-xs-12">
-    <label>ステータス</label>
-    <input type="multiple" readonly class="form-control show-form" value="<%=@post.status%>">
-  </div>
-</div>
-
-  <div class="row">
-    <div class="form-group col-md-6">
-    <p>Category</p>
-      <% @post.categories.each do |category| %>
-        <label class='badge badge-secondary'><%= category.name %></label>
+    <div class="title-box">
+      <h2 class="page-title">
+        <p class="job-name">Job Title</p>
+        <span><%= @post.title %></span>
+      </h2>
+      <% if @post.status == 'open' %>
+      <div class="status open-term status-open clearfix">
+        <div>
+          <%= @post.status %>
+        </div>
+      </div>
+      <% else %>
+      <div class="status open-term status-close clearfix">
+        <div>
+          <%= @post.status %>
+        </div>
+      </div>
       <% end %>
     </div>
-  </div>
-  <div id="comments_area">
-  <h2>comments</h2>
-    <%= render partial: 'comments/index', locals: { comments: @comments, post: @post, comment_reply: @comment } %>
-  </div>
 
-  <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
+    <div class="row main2 mdl-shadow--2dp">
+      <div>
+        <div class="button_placer2">
+          <% if @post.recruiter.id != current_user.id %>
+          <% if my_bookmark = current_user.bookmarks.find_by(post_id: @post.id) %>
+          <a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>
+            <p id="is-favorite" class="button2 button_yellow button2_with_icon mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent button_active_shadow" style="width: auto; box-shadow: none; display: block;" data-upgraded=",MaterialButton,MaterialRipple">
+              <i class="far fa-star material-icons md-20"></i>
+              unbookmark
+              <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+            </p>
+          </a>
+          <% else %>
+          <a href="/bookmarks?post_id=<%=@post.id %>" data-method=post>
+            <p id="not-favorite" class="flat_button2 flat_button2_yellow button2_with_icon mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent button_active_shadow" style="width: auto;">
+              <i class="far fa-star material-icons md-20"></i>
+              bookmark
+              <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+            </p>
+          </a>
+          <% end %>
+          <% if my_apply = current_user.applications.find_by(post_id: @post.id) %>
+          <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></p>
+          <a href="/applications/<%=my_apply.id%>" data-method=delete class="apply-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue" style="margin-top: 3px;margin-left: 1em;">
+            un-Apply
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+          <% else %>
+          <!-- apply-btn -->
+          <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></p>
+          <a href="/applications?post_id=<%=@post.id %>" data-method=post class="apply-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue" style="margin-top: 3px;margin-left: 1em;">
+            Apply
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+          <% end %>
+          <% end %>
+        </div>
+        <div>
+          <p class="small_title">Photo</p>
+          <p style="width: 100%;color: #444;font-size: 15px;">
+            <img src="<%=@post.post_image.post_detail.url%>" alt="" class="picture-image">
+          </p>
+        </div>
+        <div>
+          <p class="small_title">Detail</p>
+          <p style="width: 100%;color: #444;font-size: 15px;">
+            <%=@post.detail%>
+          </p>
+        </div>
+        <div>
+          <p class="small_title">Category</p>
+          <p style="width: 100%;color: #444;font-size: 15px;">
+            <% @post.categories.each do |category| %>
+            <label class='badge badge-secondary'><%= category.name %></label>
+            <% end %>
+          </p>
+        </div>
+        <div>
+          <p class="small_title">Deadline</p>
+          <p style="width: 100%;color: #444;font-size: 15px;">
+            <%= @post.deadline.strftime("20%y/%m/%d") %>
+          </p>
+        </div>
+        <div>
+          <p class="small_title">Recruiter</p>
+          <p style="width: 100%;color: #444;font-size: 15px;">
+            <div id="client_information">
+              <div>
+                <div>
+                  <img src="<%=@post.recruiter.profile_image.thumb.url%>" alt="" class="profile-img">
+                  <div>
+                    <%= link_to @post.recruiter.name, @post.recruiter %>
+                  </div>
+                  <div>
+                    <a rel="nofollow" data-method="post" href="/conversations?recipient_id=<%=current_user.id%>&sender_id=<%=@post.recruiter.id%>">
+                      <button type="submit" id="sendMessageButton" class="flat_button button2_with_icon">
+                        <i class="far fa-comment-dots material-icons md-20" style="margin-right: 5px;"></i>
+                        Send Message
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p>
+        </div>
+      </div>
 
-  <% if @post.recruiter.id == current_user.id %>
-  <%= render partial: 'applications/application_users', locals: { application_users: @application_users, post: @post } %>
-  <% end %>
+    </div>
 
-<div class="row">
-  <div class="form-group col-md-6 col-xs-12">
-    <%= link_to '編集', edit_post_path(@post) %>
-    <%= link_to '戻る', posts_path %>
+    <div class="row main2 mdl-shadow--2dp" style="margin-top: 30px;">
+      <div>
+        <p class="small_title">comments</p>
+        <p style="width: 100%;color: #444;font-size: 15px;">
+          <%= render partial: 'comments/index', locals: { comments: @comments, post: @post, comment_reply: @comment } %>
+        </p>
+      </div>
+
+      <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
+
+      <% if @post.recruiter.id == current_user.id %>
+      <%= render partial: 'applications/application_users', locals: { application_users: @application_users, post: @post } %>
+      <% end %>
+      <!-- </div> -->
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6 col-xs-12">
+        <%= link_to '編集', edit_post_path(@post) %>
+        <%= link_to '戻る', posts_path %>
+      </div>
+    </div>
   </div>
 </div>

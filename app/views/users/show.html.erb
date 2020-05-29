@@ -1,46 +1,40 @@
-<div class="container">
-  <h4><%= @user.name %> Info</h4>
-  <form>
-
-<div class="row">
-  <div class="picture-img">
-    <img src="<%=@user.profile_image.post_detail.url%>" alt="" class="picture-image">
+<div class="container main-content">
+  <div id="user_view">
+    <div class="row title-box">
+      <h2 class="page-title"><%= @user.name %>
+        [ <%=  @user.applicant_or_recruiter %> ]
+      </h2>
+    </div>
+    <div class="row">
+      <div class="sub col-xs-10 col-sm-3 ">
+        <img src="<%=@user.profile_image.thumb.url%>" alt="" class="profile-img">
+        <br>
+        <a rel="nofollow" data-method="post" href="/conversations?recipient_id=<%=current_user.id%>&sender_id=<%=@user.id%>"><button type="submit" id="sendMessageButton" class="btn-common btn-gradation-blue side-btn" style="display:block;">
+            Send Message
+          </button></a>
+        <dl class="skill">
+          <dt>Skill Category</dt>
+          <% @user.categories.each do | user_category | %>
+          <dd><label class='badge badge-secondary'><%= user_category.name %></label></dd>
+          <% end %>
+        </dl>
+        <ul class="timelog">
+          <% if @user.current_sign_in_at %>
+          <li>Last Login : <%= @user.current_sign_in_at.strftime("%Y-%m-%d %H:%M") %></li>
+          <% else %>
+          <li>Last Login : </li>
+          <% end %>
+          <li>Created At : <%= @user.created_at.strftime("%Y-%m-%d %H:%M") %></li>
+        </ul>
+      </div>
+      <div class="main col-xs-10 col-sm-7 align-text-center">
+        <div class="profile-professional">
+          <h3> Profie </h3>
+          <div class="profile-description">
+            <p><%= @user.content %></p>
+          </div>
+        </div>
+      </div>
+      <div class="clear:both;"></div>
+    </div>
   </div>
-</div>
-
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label>ユーザ名</label>
-        <input type="text" readonly class="form-control" name="user[name]" value="<%=@user.name%>">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label>Eメール</label>
-        <input type="text" readonly class="form-control" name="user[email]" value="<%=@user.email%>">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label>Eメール</label>
-        <input type="text" readonly class="form-control" name="user[content]" value="<%=@user.content%>">
-      </div>
-    </div>
-
-  <% if @user.id != current_user.id %>
-    <li>
-      <div class="item">
-        <%= link_to 'message', conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: :post %>
-      </div>
-    </li>
-  <% end %>
-
-    <% if @user.id == current_user.id %>
-    <%= link_to 'edit', edit_user_registration_path(@user) %> |
-    <% end %>
-    <%= link_to 'back', posts_path %>
-
-  </form>
-</div>
