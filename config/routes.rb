@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'posts#index'
   devise_for :users
   resources :users, only: %i[show] do
-    get 'applicant_index', on: :collection
+    get 'professional', on: :collection
     get 'myprofile', on: :member
   end
   resources :posts do
