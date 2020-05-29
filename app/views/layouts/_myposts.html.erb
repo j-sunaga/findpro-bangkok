@@ -1,0 +1,15 @@
+<tbody>
+  <% @posts.each do | post | %>
+  <tr>
+    <td><%= link_to "#{post.title}", post %></td>
+    <td><%= post.deadline.strftime("20%y/%m/%d") %></td>
+    <td><%= post.bookmarks.count%></td>
+    <% if post.applications.count == 0 %>
+    <td><%= post.applications.count%></td>
+    <% else %>
+    <td><%= link_to "#{post.applications.count}", application_users_post_path(post) %></td>
+    <% end %>
+    <td><%= post.status %></td>
+  </tr>
+  <% end %>
+</tbody>

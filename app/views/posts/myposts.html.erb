@@ -1,8 +1,26 @@
-<div class="row">
-  <h4>My Recruiting Posts<h4>
+<div class="container main-content">
+  <div class="row contract">
+    <div class="title">
+      <p>My Recruiting Posts</p>
+    </div>
+  </div>
+
+  <div id="lists">
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th class="col-md-4">Title</th>
+          <th width="col-md-2">Deadline</th>
+          <th class="col-md-2">Bookmark User</th>
+          <th class="col-md-2">Applied User</th>
+          <th class="col-md-2">Status</th>
+        </tr>
+        <%= render 'layouts/myposts', collection: @posts %>
+
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <%= link_to 'back', posts_path %>
+  </div>
 </div>
-
-<%= render 'layouts/posts', collection: @posts %>
-
-<p class="navbar-text"><%= link_to "new post", new_post_path %></p>
-<p class="navbar-text"><%= link_to 'back', posts_path %></p>
