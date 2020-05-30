@@ -1,0 +1,66 @@
+<div class="container main-content">
+  <div class="main-box">
+
+    <dvi class="row contract">
+      <div class="title">
+        Profile
+      </div>
+    </dvi>
+
+    <form id="freelancer-intro">
+
+      <div class="form-group clearfix">
+        <label class="control-label col-sm-2" for="form_icon">profile image</label>
+        <div class="col-sm-10">
+          <img src="<%=@user.profile_image.post_detail.url%>" class="icon-setting" id="iconimg">
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <label class="control-label col-sm-2" for="form_icon">User name</label>
+        <div class="col-sm-10">
+          <input class="form-control" readonly placeholder="icon" data-target="iconimg" name="user[name]" type="text" value="<%=@user.name%>">
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <label class="control-label col-sm-2" for="form_icon">Email</label>
+        <div class="col-sm-10">
+          <input class="form-control" readonly placeholder="icon" data-target="iconimg" name="user[email]" type="text" value="<%=@user.email%>">
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <label class="control-label col-sm-2" for="form_description">detail</label>
+        <div class="col-sm-10">
+          <textarea rows="5" readonly class="form-control" placeholder="Detail" name="user[detail]" id="form_description"><%= @user.content %></textarea>
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <label class="control-label col-sm-2" for="form_description">purpose</label>
+        <div class="col-sm-10">
+          <input class="form-control" readonly placeholder="icon" data-target="iconimg" name="user[applicant_or_recruiter]" type="text" value="<%=@user.applicant_or_recruiter%>">
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <label class="control-label col-sm-2" for="form_description">category</label>
+        <div class="col-sm-10 job-category">
+          <% @user.categories.each do |category| %>
+          <span class="mdl-chip"><span class="mdl-chip__text">
+              <%= category.name %>
+            </span>
+          </span>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @user.id == current_user.id %>
+      <%= link_to 'edit', edit_user_registration_path(@user) %> |
+      <% end %>
+      <%= link_to 'back', posts_path %>
+
+    </form>
+  </div>
+</div>
