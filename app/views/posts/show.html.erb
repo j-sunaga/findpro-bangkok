@@ -106,8 +106,22 @@
             </div>
           </p>
         </div>
+        <div>
+          <p class="small_title">Selected User</p>
+          <p style="width: 100%;color: #444;font-size: 15px;">
+            <div id="client_information">
+              <div>
+                <div>
+                  <img src="<%=@post.selected_user.profile_image.thumb.url%>" alt="" class="profile-img">
+                  <div>
+                    <%= link_to @post.selected_user.name, @post.selected_user %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p>
+        </div>
       </div>
-
     </div>
 
     <div class="row main2 mdl-shadow--2dp" style="margin-top: 30px;">

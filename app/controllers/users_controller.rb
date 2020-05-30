@@ -10,6 +10,10 @@ class UsersController < ApplicationController
     @categories = Category.all
   end
 
+  def selected_posts
+    @posts = current_user.selected_posts
+  end
+
   def myprofile; end
 
   private

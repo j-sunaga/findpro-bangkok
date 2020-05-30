@@ -23,6 +23,9 @@
            <li>
              <p class="navbar-text"><%= link_to "Applied", applications_path %></p>
            </li>
+           <li>
+             <p class="navbar-text"><%= link_to "Selected", selected_posts_user_path(current_user) %></p>
+           </li>
            <% else %>
            <li>
              <p class="navbar-text"><%= link_to "All Professionals", professional_users_path %></p>
