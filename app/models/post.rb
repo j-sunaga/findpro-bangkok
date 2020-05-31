@@ -22,10 +22,23 @@ class Post < ApplicationRecord
   enum status: { open: 0, closed: 1 }
   mount_uploader :post_image, ImageUploader
 
+  scope :keyword_like, lambda { |query|
+    where('title LIKE ?', "%#{query}%").or(where('detail LIKE ?', "%#{query}%"))
+  }
+
+  scope :category_posts, ->(category) { joins(:categories).merge(Category.select_category(category)) }
+
   def deadline_cannot_save_in_the_past
     if deadline.present? && deadline <= DateTime.now - 1.day
-      errors.add(:deadline, ": Cannot save in the past")
+      errors.add(:deadline, ': Cannot save in the past')
     end
   end
 
+  def self.search(keyword, category, page_number)
+    if category.present?
+      Post.page(page_number).keyword_like(keyword).category_posts(category)
+    else
+      Post.page(page_number).keyword_like(keyword)
+    end
+  end
 end

@@ -4,8 +4,12 @@ class PostsController < ApplicationController
   before_action :check_recruiter, only: %i[myposts select_user new edit update destroy]
 
   def index
-    @posts = Post.page(params[:page]).all
     @categories = Category.all
+    @posts = if params[:search].present?
+               Post.search(params[:keyword], params[:category], params[:page])
+             else
+               Post.page(params[:page]).all
+             end
   end
 
   def myposts
