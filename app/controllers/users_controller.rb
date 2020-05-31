@@ -6,8 +6,12 @@ class UsersController < ApplicationController
   end
 
   def professional
-    @users = User.page(params[:page]).where(applicant_or_recruiter: 'applicant')
     @categories = Category.all
+    @users = if params[:search].present?
+               User.applicants.search(params[:keyword], params[:category], params[:page])
+             else
+               User.page(params[:page]).applicants
+             end
   end
 
   def selected_posts

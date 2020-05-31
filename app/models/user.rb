@@ -26,6 +26,8 @@ class User < ApplicationRecord
 
   mount_uploader :profile_image, ImageUploader
 
+  scope :applicants, -> { where(applicant_or_recruiter: 'applicant') }
+
   def recruiter?
     applicant_or_recruiter == 'recruiter'
   end
@@ -45,5 +47,19 @@ class User < ApplicationRecord
     result = update_attributes(params, *options)
     clean_up_passwords
     result
+  end
+
+  scope :keyword_like, lambda { |query|
+                         where('users.name LIKE ?', "%#{query}%").or(where('content LIKE ?', "%#{query}%"))
+                       }
+
+  scope :category_users, ->(category) { joins(:categories).merge(Category.select_category(category)) }
+
+  def self.search(keyword, category, page_number)
+    if category.present?
+      User.page(page_number).keyword_like(keyword).category_users(category)
+    else
+      User.page(page_number).keyword_like(keyword)
+    end
   end
 end

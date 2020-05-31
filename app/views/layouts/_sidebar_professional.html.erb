@@ -1,22 +1,21 @@
 <div class="user-search-left col-md-2 align-center clearfix">
-  <h4>サイドメニュー</h4>
   <div class="sidemenu">
-    <%= form_with url:'/users/applicants_index', method: :get, local: true do |f| %>
+    <%= form_with url:'/users/professional', method: :get, local: true do |f| %>
     <%= f.hidden_field :search, value: 'true' %>
     <div class="row clearfix">
       <div class="form-group search_form clearfix">
-        <input type="text" class="form-control keyword-form clearfix" name="name" value="" placeholder="Keyword">
+        <input type="text" class="form-control keyword-form clearfix" name="keyword" value="" placeholder="Keyword">
       </div>
       <div class="form-group search_form clearfix">
         <select class="form-control keyword-form clearfix" name="category">
-          <option value="" style="display: none;">Label</option>
+          <option value="" style="display: none;">Category</option>
           <option value=""></option>
           <% @categories.each do |category| %>
           <option value=<%=category.name%>><%=category.name%></option>
           <% end %>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary search-btn" name="commit">検索</button>
+      <button type="submit" class="btn btn-primary search-btn" name="commit">Search</button>
     </div>
     <% end %>
   </div>
