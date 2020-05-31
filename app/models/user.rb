@@ -27,19 +27,13 @@ class User < ApplicationRecord
   mount_uploader :profile_image, ImageUploader
 
   def recruiter?
-    if self.applicant_or_recruiter == 'recruiter'
-      true
-    else
-      false
-    end
+    applicant_or_recruiter == 'recruiter'
   end
 
   def applicant?
-    if self.applicant_or_recruiter == 'applicant'
-      true
-    else
-      false
-    end
+    applicant_or_recruiter == 'applicant'
+  end
+
   def update_without_current_password(params, *options)
     params.delete(:current_password)
 
