@@ -1,7 +1,5 @@
 <div class="container main-content">
   <div class="main-box">
-
-
     <div class="title-box">
       <h2 class="page-title">
         <p class="job-name">Job Title</p>
@@ -24,8 +22,9 @@
 
     <div class="row main2 mdl-shadow--2dp">
       <div>
+
         <div class="button_placer2">
-          <% if @post.recruiter.id != current_user.id %>
+          <% if current_user.applicant? && @post.recruiter.id != current_user.id %>
           <% if my_bookmark = current_user.bookmarks.find_by(post_id: @post.id) %>
           <a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>
             <p id="is-favorite" class="button2 button_yellow button2_with_icon mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent button_active_shadow" style="width: auto; box-shadow: none; display: block;" data-upgraded=",MaterialButton,MaterialRipple">
@@ -112,10 +111,12 @@
             <div id="client_information">
               <div>
                 <div>
+                  <%if @post.selected_user %>
                   <img src="<%=@post.selected_user.profile_image.thumb.url%>" alt="" class="profile-img">
                   <div>
                     <%= link_to @post.selected_user.name, @post.selected_user %>
                   </div>
+                  <% end %>
                 </div>
               </div>
             </div>
