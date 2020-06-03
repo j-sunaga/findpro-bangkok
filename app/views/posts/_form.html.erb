@@ -19,12 +19,10 @@
 </div>
 
 <div class="row">
-  <div class="picture-image">
-    <div class="form-group">
-      <label>Image</label>
-      <%= form.file_field :post_image %>
-      <%= form.hidden_field :post_image_cache %>
-    </div>
+  <div class="form-group col-md-6">
+    <label>Image</label>
+    <%= form.file_field :post_image %>
+    <%= form.hidden_field :post_image_cache %>
   </div>
 </div>
 
@@ -44,24 +42,20 @@
 
 <div class="row">
   <div class="form-group col-md-6">
-    <p><label>Status</label></p>
-    <%= form.select :status, Post.statuses.keys.to_a, {}, {class: 'form-control input-form'} %>
-  </div>
-</div>
-
-  <div class="row">
-    <div class="form-group col-md-6">
+    <label>Category</label>
+    <div>
       <% Category.all.each do |category| %>
-        <%= form.check_box :category_ids, { multiple: true, checked: @post.category_ids.include?(category.id),disabled: category[:disabled], include_hidden: false }, category[:id] %>
-        <label class='badge badge-secondary'><%= category.name %></label>
+      <%= form.check_box :category_ids, { multiple: true, checked: @post.category_ids.include?(category.id),disabled: category[:disabled], include_hidden: false }, category[:id] %>
+      <label class='badge badge-secondary'><%= category.name %></label>
       <% end %>
     </div>
   </div>
+</div>
 
 
 <div class="row">
   <div class="form-group col-md-6">
-    <button type="submit" class="btn btn-primary" name="commit">登録</button>
+    <button type="submit" class="btn btn-primary" name="commit">Submit</button>
   </div>
 </div>
 

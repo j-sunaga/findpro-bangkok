@@ -1,9 +1,19 @@
-<h4>タスクの登録</h4>
+<div class="container main-content">
+  <div class="main-box">
 
-<%= render 'form', post: @post %>
+    <dvi class="row contract">
+      <div class="title">
+        New Post
+      </div>
+    </dvi>
 
-<div class="row">
-  <div class="form-group col-md-6">
-    <p><%= link_to '戻る', posts_path %></p>
+    <%= render 'form', post: @post %>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <p><%= link_to 'back', posts_path %></p>
+      </div>
+    </div>
+
   </div>
 </div>
