@@ -1,9 +1,14 @@
-<!-- タイムライン表示画面 -->
 <div class="col-md-8">
-  <!-- つぶやき一覧を表示する -->
   <% @posts.each {|post| %>
   <a href="/posts/<%=post.id%>" class="post-link stretched-link">
     <div class="post mdl-shadow--2dp card clearfix">
+      <div class="status open-term status-close clearfix">
+        <div>
+          <span class="mdl-chip-<%= post.status %>">
+            <%= post.status %>
+          </span>
+        </div>
+      </div>
       <div class="work-icon">
         <img src="<%=post.post_image%>" alt="">
       </div>
