@@ -82,4 +82,8 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :detail, :post_image, :post_image_cache, :deadline, :status, :selected_user_id, :recruiter_id, category_ids: [])
   end
+
+  def destroy_all_categories
+    @posts.category_posts.destroy_all
+  end
 end
