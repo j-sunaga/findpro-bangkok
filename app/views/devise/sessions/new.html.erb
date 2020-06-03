@@ -1,48 +1,32 @@
 <div class="jumbotron jumbotron-fluid clearfix">
-<div class="container">
-<div class="row">
-    <div class="box">
-      <div class="input-group">
-        <span class="input-group-addon addon-facebook">
-          <i class="fa fa-fw fa-2x fa-facebook fa-fw"></i>
-        </span>
-        <a class="btn btn-lg btn-block btn-facebook" href="#"> Register with Facebook</a>
-      </div>
+  <div class="container">
+    <div class="row">
+      <div class="box">
 
-      <div class="input-group">
-        <span class="input-group-addon addon-twitter">
-          <i class="fa fa-fw fa-2x fa-twitter fa-fw"></i>
-        </span>
-        <a class="btn btn-lg btn-block btn-twitter" href="#"> Register with Twitter</a>
-      </div>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-group">
+          <label>Email</label>
+          <%= f.email_field :email, autofocus: true, class: "sign-in form-control",autocomplete: "email" %>
+        </div>
 
-      <div class="divider-form"></div>
-      <div class="form-group">
-        <label>Email</label>
-        <%= f.email_field :email, autofocus: true, class: "sign-in form-control",autocomplete: "email" %>
-      </div>
+        <div class="field">
+          <label>Password</label>
+          <%= f.password_field :password, autocomplete: "current-password", id: "exampleInputPasssword1", class: "sign-in form-control" %>
+        </div>
 
-      <div class="divider-form"></div>
-      <div class="field">
-        <label>Password</label>
-        <%= f.password_field :password, autocomplete: "current-password", id: "exampleInputPasssword1", class: "sign-in form-control" %>
-      </div>
+        <button type="submit" class="btn-block btn btn-lg btn-primary btn-sign-in">Log in</button>
 
-      <div class="divider-form"></div>
-      <button type="submit" class="btn-block btn btn-lg btn-primary btn-sign-in">Log in</button>
+        <p class="text-center forget-password"><%= render "devise/shared/links" ,class:"forget-password"%></p>
 
-      <p class="text-center forget-password"><%= render "devise/shared/links" ,class:"forget-password"%></p>
-
-      <% if devise_mapping.rememberable? %>
-      <div class="field">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+        <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+        <% end %>
+        <% end %>
       </div>
-      <% end %>
-      <% end %>
-      </div>
-      </div>
+    </div>
   </div>
 </div>
