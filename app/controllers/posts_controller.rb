@@ -46,15 +46,16 @@ class PostsController < ApplicationController
   def create
     @post = current_user.recruiting_posts.build(post_params)
     if @post.save
-      redirect_to @post, notice: 'タスクの登録が完了しました'
+      redirect_to @post, notice: 'complete post'
     else
       render :new
     end
   end
 
   def update
+    destroy_all_categories if params[:post][:category_ids].blank?
     if @post.update(post_params)
-      redirect_to @post, notice: 'タスクの更新が完了しました'
+      redirect_to @post, notice: 'complete updated'
     else
       render :edit
     end
