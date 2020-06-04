@@ -116,6 +116,14 @@
                   <div>
                     <%= link_to @post.selected_user.name, @post.selected_user %>
                   </div>
+                  <div>
+                    <a rel="nofollow" data-method="post" href="/conversations?recipient_id=<%=current_user.id%>&sender_id=<%=@post.selected_user.id%>">
+                      <button type="submit" id="sendMessageButton" class="flat_button button2_with_icon">
+                        <i class="far fa-comment-dots material-icons md-20" style="margin-right: 5px;"></i>
+                        Send Message
+                      </button>
+                    </a>
+                  </div>
                   <% end %>
                 </div>
               </div>
@@ -139,8 +147,7 @@
 
     <div class="row">
       <div class="form-group col-md-6 col-xs-12">
-        <%= link_to '編集', edit_post_path(@post) %>
-        <%= link_to '戻る', posts_path %>
+        <%= link_to 'back', posts_path %>
       </div>
     </div>
   </div>
