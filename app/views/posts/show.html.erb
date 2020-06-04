@@ -134,17 +134,16 @@
     </div>
 
     <div class="row main2 mdl-shadow--2dp" style="margin-top: 30px;">
-      <div>
-        <p class="small_title">comments</p>
-        <p style="width: 100%;color: #444;font-size: 15px;">
-          <%= render partial: 'comments/index', locals: { comments: @comments, post: @post, comment_reply: @comment } %>
-        </p>
+      <p class="small_title">Comments</p>
+      <%= render partial: 'comments/index', locals: { comments: @comments,post: @post } %>
+      <div><%= paginate @comments, left: 1, right: 3 %></div>
+      <% if user_signed_in? %>
+      <div class="comment-create">
+        <%= render partial: 'comments/form', locals: { comment: @comment, post: @post } %>
       </div>
-
-      <%= render partial: 'comments/form', locals: { comment: @comment, post: @post }%>
-
+      <% end %>
     </div>
-
+    <hr>
     <div class="row">
       <div class="form-group col-md-6 col-xs-12">
         <%= link_to 'back', posts_path %>
