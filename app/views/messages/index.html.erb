@@ -35,7 +35,7 @@
     <div id="message-input">
       <%= form_with(model: [@conversation, @message]) do |f| %>
       <div style="width: 70%;">
-        <%= f.text_area :body, class: "form-control", rows: 6, placeholder: "メッセージを書く" %>
+        <%= f.text_area :body, class: "form-control", rows: 6, placeholder: "send message" %>
       </div>
       <%= f.text_field :user_id, value: current_user.id, type: "hidden"  %>
       <div>
