@@ -1,3 +1,301 @@
+//post
+.mdl-chip {
+  height: 32px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  line-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 16px;
+  background-color: #dedede;
+  display: inline-block;
+  color: rgba(0, 0, 0, .87);
+  margin: 2px 0;
+  font-size: 0;
+  white-space: nowrap;
+}
+
+.mdl-chip-closed {
+  height: 32px;
+  width: 65px;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  line-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 16px;
+  background-color: #dedede;
+  display: inline-block;
+  color: rgba(0, 0, 0, .87);
+  margin: 2px 0;
+  white-space: nowrap;
+}
+
+.mdl-chip-open {
+  height: 32px;
+  width: 65px;
+  text-align: center;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  line-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 16px;
+  background-color: #78BAF1;
+  display: inline-block;
+  color: #fff;
+  margin: 2px 0;
+  white-space: nowrap;
+}
+
+//button
+.btn-common {
+  text-align: center;
+  color: #fff !important;
+  -webkit-border-radius: 84px;
+  -moz-border-radius: 84px;
+  border-radius: 84px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.search-btn {
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: #00D59F; //ボタンの背景色
+  color: #FFFFFF; //ボタンのテキストの色
+  height: 20px;
+  border-color: #00D59F;
+  font-size: 12px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.btn-primary:active.focus,
+.btn-primary.active,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary.active.focus,
+.open>.dropdown-toggle.btn-primary,
+.open>.dropdown-toggle.btn-primary:hover,
+.open>.dropdown-toggle.btn-primary:focus,
+.open>.dropdown-toggle.btn-primary.focus,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus {
+  background-color: #23a9f6;
+  border-color: #23a9f6;
+  color: #ffffff; //ボタンの上にポインタを持ってきたり、クリックしたりした時のテキストの色
+  opacity: 0.7;
+}
+
+.btn-gradation-blue {
+  box-shadow: 0 -3px #2068a0 inset;
+  background: #0096ff;
+  background-image: linear-gradient(rgb(0, 150, 255) 0%, rgb(0, 136, 231) 100%);
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat-x: initial;
+  background-repeat-y: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#0096ff), to(#0088e7));
+  background: -webkit-linear-gradient(#0096ff 0%, #0088e7 100%);
+  background: -moz-linear-gradient(#0096ff 0%, #0088e7 100%);
+  background: -o-linear-gradient(#0096ff 0%, #0088e7 100%);
+  background: linear-gradient(#0096ff 0%, #0088e7 100%);
+  border: none;
+}
+
+#user_view .side-btn {
+  line-height: 34px;
+  margin-bottom: 5px;
+}
+
 .mdl-shadow--2dp {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+.mdl-button {
+  background: 0 0;
+  border: none;
+  border-radius: 2px;
+  color: #000;
+  position: relative;
+  height: 36px;
+  margin: 0;
+  min-width: 64px;
+  padding: 0 16px;
+  display: inline-block;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0;
+  overflow: hidden;
+  will-change: box-shadow;
+  transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+  outline: 0;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  line-height: 36px;
+  vertical-align: middle;
+}
+
+.mdl-button--accent.mdl-button--accent.mdl-button--fab,
+.mdl-button--accent.mdl-button--accent.mdl-button--raised {
+  color: #fff;
+  background-color: #ff4081;
+}
+
+.mdl-button--accent.mdl-button--accent.mdl-button--fab,
+.mdl-button--accent.mdl-button--accent.mdl-button--raised {
+  color: #fff;
+  background-color: #ff4081;
+}
+
+.mdl-button--accent.mdl-button--accent {
+  color: #ff4081;
+}
+
+.mdl-button--accent.mdl-button--accent {
+  color: #ff4081;
+}
+
+.mdl-button--accent.mdl-button--accent {
+  color: #ff4081;
+}
+
+.mdl-button {
+  text-transform: unset !important;
+}
+
+.button_blue {
+  background-color: #4285f4 !important;
+}
+
+.mdl-button--raised {
+  background: rgba(158, 158, 158, .2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0;
+}
+
+//apply-btn
+.appy-btn {
+  margin-top: 3px;
+  margin-left: 1em;
+}
+
+//favorite-btn
+.button_yellow {
+  color: #fff !important;
+  background-color: #f4b400 !important;
+}
+
+.flat_button2_yellow {
+  color: #f4b400 !important;
+  border: 1px solid #f4b400;
+}
+
+.button2_with_icon,
+.flat_button3_adding_with_add_icon,
+span.link_with_icon {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flat_button2 {
+  margin: 3px 0px 3px 10px;
+  cursor: pointer;
+  padding: 8px 16px;
+  display: inline-block;
+  line-height: 1;
+  font: 500 14px/20px Roboto, sans-serif;
+  height: auto;
+  min-width: 36px;
+  outline: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  text-align: center;
+  width: 7.45em;
+}
+
+.button2_with_icon,
+.flat_button3_adding_with_add_icon,
+span.link_with_icon {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.button2_with_icon,
+.flat_button3_adding_with_add_icon,
+span.link_with_icon {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flat_button {
+  margin: 4px 4px 4px 12px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: 0;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  display: inline-block;
+  font: 500 14px/20px Roboto, sans-serif;
+  height: auto;
+  min-width: 36px;
+  outline: 0;
+  text-decoration: none !important;
+  text-overflow: ellipsis;
+  transition: background-color .2s, box-shadow .2s;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  color: #0072c9 !important;
+  background-color: white;
+}
+
+//message
+.mdl-shadow--2dp {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+#message-input button {
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  -webkit-appearance: button;
+  background: linear-gradient(#0096ff 0%, #0088e7 100%);
+  color: #fff;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-border-radius: 2px !important;
+  -moz-border-radius: 2px !important;
+  border-radius: 2px !important;
 }
