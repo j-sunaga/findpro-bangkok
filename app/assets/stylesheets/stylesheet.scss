@@ -28,13 +28,10 @@ body {
   width: 960px;
 }
 
-a {
+a,
+a:hover {
   text-decoration: none;
   color: #23a9f6;
-}
-
-a:hover {
-  color: #ffffff;
 }
 
 .row {
@@ -71,12 +68,22 @@ ul {
 }
 
 .navbar-text a,
-.navbar-text a:visited {
+.navbar-text a:visited,
+.navbar-text a:hover {
   font-size: 12px;
   margin: 11px 0 11px 0;
   padding: 0 11px 0 11px;
   color: #fff;
   text-decoration: none;
+}
+
+.dropdown {
+  background-color: transparent;
+}
+
+#navbarDropdownMenuLink {
+  background-color: transparent;
+  color: #fff;
 }
 
 //sidebar
