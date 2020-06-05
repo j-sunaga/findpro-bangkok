@@ -1,6 +1,6 @@
 class SignupMailer < ApplicationMailer
-   def signup_mail(contact)
+  def signup_mail(contact)
     @contact = contact
-    mail to: "s-test@example.com", subject: "会員登録の確認メール"
+    mail to: contact.email, subject: 'successfully registered!'
   end
 end
