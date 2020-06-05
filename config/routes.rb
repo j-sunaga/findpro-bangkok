@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'posts#index'
   devise_for :users, controllers: {
-    registrations: 'registrations'
+    registrations: 'users/registrations',
   }
   resources :users, only: %i[show] do
     get 'professional', on: :collection
