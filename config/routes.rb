@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
   root 'posts#index'
+
   devise_for :users, controllers: {
     registrations: 'users/registrations',
+    sessions: 'users/sessions'
   }
+
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'users/sessions#new_guest'
+  end
+
   resources :users, only: %i[show] do
     get 'professional', on: :collection
     get 'myprofile', on: :member
     get 'selected_posts', on: :member
   end
+
   resources :posts do
     resources :comments
     get 'myposts', on: :collection

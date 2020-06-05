@@ -62,4 +62,14 @@ class User < ApplicationRecord
       User.page(page_number).keyword_like(keyword)
     end
   end
+
+  def self.guest
+    if find_by(name: 'test_user')
+      user = find_by(name: 'test_user')
+    else
+      create(name: 'test_user', email: 'test_user@example.com', content: 'test', admin: true) do |user|
+        user.password = '123456'
+      end
+    end
+  end
 end
