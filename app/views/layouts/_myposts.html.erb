@@ -11,6 +11,7 @@
     <% end %>
     <td><%= post.status %></td>
     <td><%= link_to 'edit',edit_post_path(post)%></td>
+    <td><%= link_to 'delete',post_path(post),method: :delete, data: { confirm: "really delete?"}%></td>
   </tr>
   <% end %>
 </tbody>
