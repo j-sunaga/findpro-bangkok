@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_post, only: %i[show edit update select_user destroy]
-  before_action :authenticate_user!, only: %i[index new edit update destroy]
-  before_action :check_recruiter, only: %i[myposts select_user new edit update destroy]
+  before_action :check_recruiter, only: %i[myposts application_users new]
+  before_action :check_post_owner, only: %i[select_user edit update destroy]
 
   def index
     @categories = Category.all
@@ -64,7 +65,7 @@ class PostsController < ApplicationController
   def destroy
     if current_user.id == @post.recruiter.id
       if @post.destroy!
-        redirect_to posts_url, notice: 'タスクを削除しました'
+        redirect_to posts_url, notice: 'Sucessfully Delete Post'
       else
         redirect_to posts_url, notice: 'Failed to Delete'
       end
@@ -85,5 +86,12 @@ class PostsController < ApplicationController
 
   def destroy_all_categories
     @posts.category_posts.destroy_all
+  end
+
+  def check_post_owner
+    @post = Post.find(params[:id])
+    return if @post.recruiter_id == current_user.id
+
+    redirect_back(fallback_location: root_path, notice: 'no permission')
   end
 end
