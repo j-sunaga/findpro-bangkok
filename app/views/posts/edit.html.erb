@@ -1,9 +1,19 @@
-<h4>Post Edit</h4>
+<div class="container main-content">
+  <div class="main-box">
 
-<%= render 'form', post: @post %>
+    <dvi class="row contract">
+      <div class="title">
+        Edit Post
+      </div>
+    </dvi>
 
-<div class="row">
-  <div class="form-group col-md-6 col-xs-12">
-    <%= link_to '詳細', @post %> <%= link_to '戻る', posts_path %>
+    <%= render 'form', post: @post %>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <p><%= link_to 'back', posts_path %></p>
+      </div>
+    </div>
+
   </div>
 </div>

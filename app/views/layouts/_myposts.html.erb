@@ -10,6 +10,7 @@
     <td><%= link_to "#{post.applications.count}", application_users_post_path(post) %></td>
     <% end %>
     <td><%= post.status %></td>
+    <td><%= link_to 'edit',edit_post_path(post)%></td>
   </tr>
   <% end %>
 </tbody>
