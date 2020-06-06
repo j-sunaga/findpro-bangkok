@@ -37,6 +37,8 @@ gem 'whenever', :require => false
 gem 'rails_admin', '~> 2.0'
 gem 'cancancan'
 
+gem 'ransack'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'letter_opener_web'
