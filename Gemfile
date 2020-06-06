@@ -33,7 +33,9 @@ gem 'devise'
 
 gem 'whenever', :require => false
 
+# admin
 gem 'rails_admin', '~> 2.0'
+gem 'cancancan'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
