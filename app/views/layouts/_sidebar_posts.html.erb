@@ -11,7 +11,11 @@
           <option value="" style="display: none;">Category</option>
           <option value=""></option>
           <% @categories.each do |category| %>
-          <option value=<%=category.name%>><%=category.name%></option>
+          <% if  @category.present? && @category.name == category.name %>
+          <option value=<%=category.name%> selected><%= category.name %></option>
+          <% else %>
+          <option value=<%=category.name%>><%= category.name %></option>
+          <% end %>
           <% end %>
         </select>
       </div>
