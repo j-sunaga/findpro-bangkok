@@ -36,7 +36,8 @@
 <div class="row">
   <div class="form-group col-md-6">
     <label>Deadline</label>
-    <input type="date" class="form-control input-form" name="post[deadline]" value="<%=@post.deadline.strftime("20%y-%m-%d")%>">
+    <%  deadline = @post.deadline.present? ? @post.deadline.strftime("20%y-%m-%d") : "" %>
+    <input type="date" class="form-control input-form" name="post[deadline]" value="<%=deadline%>">
   </div>
 </div>
 
