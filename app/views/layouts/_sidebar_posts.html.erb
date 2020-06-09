@@ -4,7 +4,8 @@
     <%= f.hidden_field :search, value: 'true' %>
     <div class="row clearfix">
       <div class="form-group search_form clearfix">
-        <input type="text" class="form-control keyword-form clearfix" name="keyword" value="" placeholder="Keyword">
+        <%= search_form_for @q do |f| %>
+        <%= f.search_field :title_or_detail_cont, class: 'form-control keyword-form clearfix', placeholder: 'keyword' %>
       </div>
       <div class="form-group search_form clearfix">
         <select class="form-control keyword-form clearfix" name="category">
@@ -21,6 +22,7 @@
       </div>
       <button type="submit" class="btn btn-primary search-btn" name="commit">Search</button>
     </div>
+    <% end %>
     <% end %>
   </div>
 </div>

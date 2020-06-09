@@ -6,11 +6,14 @@ class PostsController < ApplicationController
 
   def index
     @categories = Category.all
-    @posts = if params[:search].present?
-               Post.search(params[:keyword], params[:category], params[:page])
-             else
-               Post.page(params[:page]).all
-             end
+    if params[:category].present?
+      @q = Post.ransack(params[:q])
+      @posts = @q.result.category_posts(params[:category]).order(status: :asc).page(params[:page])
+      @category = Category.find_by(name: params[:category])
+    else
+      @q = Post.ransack(params[:q])
+      @posts = @q.result.order(status: :asc).page(params[:page])
+    end
   end
 
   def myposts

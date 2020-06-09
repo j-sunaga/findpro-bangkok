@@ -33,12 +33,4 @@ class Post < ApplicationRecord
       errors.add(:deadline, ': Cannot save in the past')
     end
   end
-
-  def self.search(keyword, category, page_number)
-    if category.present?
-      Post.page(page_number).keyword_like(keyword).category_posts(category)
-    else
-      Post.page(page_number).keyword_like(keyword)
-    end
-  end
 end
