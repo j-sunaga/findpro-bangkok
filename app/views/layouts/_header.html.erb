@@ -13,7 +13,7 @@
     <ul class="nav navbar-nav float-right">
       <% if user_signed_in? %>
       <li>
-        <p class="navbar-text"><%= link_to "#{current_user.email}", myprofile_user_path(current_user) %></p>
+        <p class="navbar-text"><%= link_to "#{current_user.email}"+"[#{current_user.applicant_or_recruiter}]", myprofile_user_path(current_user) %></p>
       </li>
       <li>
         <% if current_user.admin %>
