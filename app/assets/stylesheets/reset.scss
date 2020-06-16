@@ -54,12 +54,6 @@ a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
-/* Make images easier to work with */
-/* img要素の扱いを簡単にする */
-img {
-  max-width: 100%;
-}
-
 /* Natural flow and rhythm in articles by default */
 /* article要素内の要素に自然な流れとリズムを定義 */
 article>*+* {

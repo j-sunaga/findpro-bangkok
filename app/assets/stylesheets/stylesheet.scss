@@ -48,6 +48,11 @@ ul {
   padding-left: 10px;
 }
 
+img {
+  max-width: 100%;
+  height: 60px;
+}
+
 //navbar
 .navbar {
   background-color: #78BAF1;
@@ -212,7 +217,7 @@ ul {
 }
 
 .work-icon {
-  width: 46px;
+  width: 60px;
   float: left;
   margin: 0 18px 0 0;
 }
@@ -590,6 +595,10 @@ h2.page-title {
   float: right;
 }
 
+.detail-image {
+  width: 300px;
+  height: 300px;
+}
 
 .page-title,
 .job-name {
@@ -920,6 +929,8 @@ textarea.form-control {
 
 #freelancer-intro .icon-setting {
   margin: 10px 0 0 0;
+  width: 200px;
+  height: 200px;
 }
 
 textarea.form-control {
