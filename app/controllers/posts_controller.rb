@@ -8,11 +8,11 @@ class PostsController < ApplicationController
     @categories = Category.all
     if params[:category].present?
       @q = Post.ransack(params[:q])
-      @posts = @q.result.category_posts(params[:category]).order(status: :asc).page(params[:page])
+      @posts = @q.result.category_posts(params[:category]).order(status: :asc).order(:deadline).page(params[:page])
       @category = Category.find_by(name: params[:category])
     else
       @q = Post.ransack(params[:q])
-      @posts = @q.result.order(status: :asc).page(params[:page])
+      @posts = @q.result.order(status: :asc).order(:deadline).page(params[:page])
     end
   end
 
