@@ -4,19 +4,25 @@
     <%= f.hidden_field :search, value: 'true' %>
     <div class="row clearfix">
       <div class="form-group search_form clearfix">
-        <input type="text" class="form-control keyword-form clearfix" name="keyword" value="" placeholder="Keyword">
+        <%= search_form_for(@q,url: professional_users_path,method: :get) do |f| %>
+        <%= f.search_field :name_or_content_cont, class: 'form-control keyword-form clearfix', placeholder: 'keyword' %>
       </div>
       <div class="form-group search_form clearfix">
         <select class="form-control keyword-form clearfix" name="category">
           <option value="" style="display: none;">Category</option>
           <option value=""></option>
           <% @categories.each do |category| %>
-          <option value=<%=category.name%>><%=category.name%></option>
+          <% if  @category.present? && @category.name == category.name %>
+          <option value=<%=category.name%> selected><%= category.name %></option>
+          <% else %>
+          <option value=<%=category.name%>><%= category.name %></option>
+          <% end %>
           <% end %>
         </select>
       </div>
       <button type="submit" class="btn btn-primary search-btn" name="commit">Search</button>
     </div>
+    <% end %>
     <% end %>
   </div>
 </div>

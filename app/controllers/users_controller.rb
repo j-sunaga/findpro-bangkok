@@ -7,11 +7,14 @@ class UsersController < ApplicationController
 
   def professional
     @categories = Category.all
-    @users = if params[:search].present?
-               User.applicants.search(params[:keyword], params[:category], params[:page])
-             else
-               User.page(params[:page]).applicants
-             end
+    if params[:category].present?
+      @q = User.applicants.ransack(params[:q])
+      @users = @q.result.category_users(params[:category]).order(created_at: 'DESC').page(params[:page])
+      @category = Category.find_by(name: params[:category])
+    else
+      @q = User.applicants.ransack(params[:q])
+      @users = @q.result.order(created_at: 'DESC').page(params[:page])
+    end
   end
 
   def selected_posts
