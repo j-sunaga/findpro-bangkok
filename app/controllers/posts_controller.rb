@@ -17,7 +17,7 @@ class PostsController < ApplicationController
   end
 
   def myposts
-    @posts = current_user.recruiting_posts
+    @posts = current_user.recruiting_posts.order(status: :asc).order(:deadline)
   end
 
   def select_user
