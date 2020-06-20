@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :post do
-
     sequence :title do |n|
       "post_#{n}"
     end
@@ -8,12 +7,16 @@ FactoryBot.define do
     sequence :detail do |n|
       "post_#{n}_detail"
     end
-    post_image{"no_image.jpg"}
+
+    post_image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
     deadline { DateTime.now + 1.week }
     status { :open }
 
-    association :recruiter, factory: :user
-    association :selected_user, factory: :user
+    association :recruiter, factory: :recruiter
+    association :selected_user, factory: :applicant
 
+    after :create do |post|
+      create(:category_post, post: post)
+    end
   end
 end
