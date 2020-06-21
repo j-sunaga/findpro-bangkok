@@ -80,10 +80,24 @@ RSpec.describe 'タスク管理機能', type: :system do
         end
       end
     end
-    context '項目を編集して更新できる' do
+    context '登録した投稿がMypostで確認できる' do
+      it 'データが表示される' do
+        act_as recruiter do
+          visit new_post_path
+          fill_in 'post[title]', with: 'Example_Post'
+          fill_in 'post[detail]', with: 'Example_Detail'
+          fill_in 'post[deadline]',	with: DateTime.now.strftime('20%y-%m-%d')
+          click_button 'Submit'
+          visit myposts_posts_path
+          expect(page).to have_content 'Example_Post'
+        end
+      end
+    end
+    context '投稿を編集して更新できる' do
       it 'データが更新される' do
         act_as recruiter do
-          visit edit_post_path(post)
+          visit myposts_posts_path
+          click_on 'edit'
           fill_in 'post[detail]', with: 'Example_Detail_Update'
           click_button 'Submit'
           expect(page).to have_content 'Example_Detail_Update'
@@ -91,7 +105,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
     context '投稿を削除できる' do
-      it '作成済みの投稿が削除され表示されない' do
+      it 'データが表示されない' do
         act_as recruiter do
           visit myposts_posts_path
           click_on 'delete'
