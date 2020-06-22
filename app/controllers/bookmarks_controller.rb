@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
   before_action :check_applicant
 
   def index
-    @posts = current_user.bookmark_posts
+    @posts = current_user.bookmark_posts.order(status: :asc).order(:deadline)
   end
 
   def create

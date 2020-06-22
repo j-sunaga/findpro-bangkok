@@ -13,7 +13,7 @@ class ApplicationsController < ApplicationController
   end
 
   def index
-    @posts = current_user.application_posts
+    @posts = current_user.application_posts.order(status: :asc).order(:deadline)
   end
 
   def destroy
