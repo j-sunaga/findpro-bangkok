@@ -732,14 +732,18 @@ tbody>tr:nth-child(2n+1) {
 }
 
 //comment
-.comment td {
-  padding-top: 0;
-  padding-bottom: 0;
-  border-right: none;
-  height: 20px;
-  vertical-align: middle;
+#comments_area {
+  max-height: 400px;
+  overflow: scroll;
 }
 
+.comment {
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background: #fff;
+  padding: 5px;
+  margin-bottom: 5px;
+}
 
 //table
 
