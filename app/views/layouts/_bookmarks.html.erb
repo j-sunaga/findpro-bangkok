@@ -6,7 +6,7 @@
     <td><%= post.applications.count%></td>
     <td><%= post.status %></td>
     <td><% my_bookmark = current_user.bookmarks.find_by(post_id: post.id) %>
-      <a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>un-bookmark</a></td>
+      <a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>unbookmark</a></td>
   </tr>
   <% end %>
 </tbody>
