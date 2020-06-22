@@ -26,8 +26,8 @@ Rails.application.routes.draw do
   resources :bookmarks, only: %i[index create destroy]
   resources :applications, only: %i[index show create destroy]
   resources :categories
-  resources :conversations do
-    resources :messages
+  resources :conversations, only: %i[index create] do
+    resources :messages, only: %i[index create]
   end
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end
