@@ -4,7 +4,8 @@
     <td><%= link_to "#{post.title}", post %></td>
     <td><%= post.recruiter.name %></td>
     <td><%= post.applications.count%></td>
-    <td><%= post.status %></td>
+    <td><%= post.deadline.strftime("20%y-%m-%d")%></td>
+    <td class="status-<%=post.status%>"><%= post.status %></td>
     <td><% my_bookmark = current_user.bookmarks.find_by(post_id: post.id) %>
       <a href="/bookmarks/<%=my_bookmark.id%>" data-method=delete>unbookmark</a></td>
   </tr>

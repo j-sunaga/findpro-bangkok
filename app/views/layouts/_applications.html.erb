@@ -4,7 +4,8 @@
     <td><%= link_to "#{post.title}", post %></td>
     <td><%= post.recruiter.name %></td>
     <td><%= post.applications.count%></td>
-    <td><%= post.status %></td>
+    <td><%= post.deadline.strftime("20%y-%m-%d")%></td>
+    <td class="status-<%=post.status%>"><%= post.status %></td>
   </tr>
   <% end %>
 </tbody>
