@@ -5,7 +5,7 @@ RSpec.describe 'タスク管理機能', type: :system do
   let!(:recruiter) { create(:recruiter) }
   let!(:post) { create(:post, recruiter: recruiter) }
 
-  describe '投稿一覧画面' do
+  describe '投稿一覧機能#index' do
     context '投稿を作成した場合' do
       it '作成済みの投稿が表示される' do
         act_as applicant do
@@ -67,8 +67,8 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
-  describe '投稿機能' do
-    context '必要項目を入力して登録ができる' do
+  describe '投稿機能#create' do
+    context '必要項目を入力した場合' do
       it 'データが保存される' do
         act_as recruiter do
           visit new_post_path
@@ -80,20 +80,67 @@ RSpec.describe 'タスク管理機能', type: :system do
         end
       end
     end
-    context '登録した投稿がMypostで確認できる' do
-      it 'データが表示される' do
+  end
+  describe '自身の投稿一覧#myposts' do
+    context '投稿ユーザ(recruiter)かつ投稿者の場合' do
+      it '投稿データが表示される' do
         act_as recruiter do
-          visit new_post_path
-          fill_in 'post[title]', with: 'Example_Post'
-          fill_in 'post[detail]', with: 'Example_Detail'
-          fill_in 'post[deadline]',	with: DateTime.now.strftime('20%y-%m-%d')
-          click_button 'Submit'
           visit myposts_posts_path
-          expect(page).to have_content 'Example_Post'
+          expect(page).to have_content post.title.to_s
         end
       end
     end
-    context '投稿を編集して更新できる' do
+    context '投稿ユーザ(recruiter)だが異なるユーザの場合' do
+      let!(:recruiter2) { create(:recruiter) }
+      it '投稿データが表示されない' do
+        act_as recruiter2 do
+          visit myposts_posts_path
+          expect(page).to_not have_content post.title.to_s
+        end
+      end
+    end
+  end
+  describe '担当者選択機能#select_user' do
+    context '投稿ユーザ(recruiter)がAssignボタンを押した時' do
+      let!(:application) { create(:application, post: post, user: applicant) }
+      it '応募ユーザリストにAssignedが表示される' do
+        act_as recruiter do
+          visit application_users_post_path(post)
+          click_on 'Assign'
+          expect(page).to have_content 'Assigned'
+        end
+      end
+      it '投稿詳細に選ばれたユーザ名が表示される' do
+        act_as recruiter do
+          visit application_users_post_path(post)
+          click_on 'Assign'
+          visit post_path(post)
+          expect(page).to have_content applicant.name.to_s
+        end
+      end
+      it '投稿がclosedになる' do
+        act_as recruiter do
+          visit application_users_post_path(post)
+          click_on 'Assign'
+          visit post_path(post)
+          expect(page).to have_content 'closed'
+        end
+      end
+      it '選ばれたユーザのselected postに表示される' do
+        act_as recruiter do
+          visit application_users_post_path(post)
+          click_on 'Assign'
+          expect(page).to have_content 'Assigned'
+        end
+        act_as applicant do
+          visit selected_posts_user_path(applicant)
+          expect(page).to have_content post.title.to_s
+        end
+      end
+    end
+  end
+  describe '投稿編集機能#edit/update' do
+    context '投稿ユーザ(recruiter)の場合' do
       it 'データが更新される' do
         act_as recruiter do
           visit myposts_posts_path
@@ -104,7 +151,9 @@ RSpec.describe 'タスク管理機能', type: :system do
         end
       end
     end
-    context '投稿を削除できる' do
+  end
+  describe '投稿削除機能#destroy' do
+    context '投稿ユーザ(recruiter)が削除した場合' do
       it 'データが表示されない' do
         act_as recruiter do
           visit myposts_posts_path

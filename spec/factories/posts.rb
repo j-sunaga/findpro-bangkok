@@ -13,7 +13,7 @@ FactoryBot.define do
     status { :open }
 
     association :recruiter, factory: :recruiter
-    association :selected_user, factory: :applicant
+    selected_user {}
 
     after :create do |post|
       create(:category_post, post: post)
