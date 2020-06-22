@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update select_user destroy]
   before_action :check_recruiter, only: %i[myposts application_users new]
   before_action :check_post_owner, only: %i[select_user edit update destroy]
+  before_action :check_post_status, only: %i[select_user edit]
 
   def index
     @categories = Category.all
@@ -96,5 +97,12 @@ class PostsController < ApplicationController
     return if @post.recruiter_id == current_user.id
 
     redirect_back(fallback_location: root_path, notice: 'no permission')
+  end
+
+  def check_post_status
+    @post = Post.find(params[:id])
+    return if @post.status == 'open'
+
+    redirect_back(fallback_location: root_path, notice: 'already closed')
   end
 end
