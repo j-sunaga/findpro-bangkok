@@ -5,19 +5,11 @@
         <p class="job-name">Job Title</p>
         <span><%= @post.title %></span>
       </h2>
-      <% if @post.status == 'open' %>
-      <div class="status open-term status-open clearfix">
+      <div class="status open-term status-<%=@post.status%> clearfix">
         <div>
           <%= @post.status %>
         </div>
       </div>
-      <% else %>
-      <div class="status open-term status-close clearfix">
-        <div>
-          <%= @post.status %>
-        </div>
-      </div>
-      <% end %>
     </div>
 
     <div class="row main2 mdl-shadow--2dp">
