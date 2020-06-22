@@ -37,7 +37,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @comments = @post.comments.order(created_at: :desc).page(params[:page])
+    @comments = @post.comments.order(:created_at)
     @comment = @post.comments.build
     @application_users = @post.application_users
   end
