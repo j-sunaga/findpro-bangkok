@@ -5,7 +5,6 @@ FactoryBot.define do
     end
 
     conversation
-    user { conversation.sender }
-
+    user {}
   end
 end
