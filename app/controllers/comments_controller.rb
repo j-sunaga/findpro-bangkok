@@ -7,16 +7,16 @@ class CommentsController < ApplicationController
       if @comment.save
         format.js { render :index }
       else
-        format.html { redirect_to post_path(@comment.post), notice: '投稿できませんでした...' }
+        format.html { redirect_to post_path(@comment.post), notice: 'failed to comment' }
       end
     end
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
+    @comment = current_user.comments.find(params[:id])
     @comment.destroy
     respond_to do |format|
-      flash.now[:notice] = 'コメントが削除されました'
+      flash.now[:notice] = 'comment deleted'
       format.js { render :index }
     end
   end
