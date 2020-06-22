@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :comment do
-    content { "MyString" }
+    sequence :content do |n|
+      "comment_#{n}"
+    end
     user { nil }
     post { nil }
   end
