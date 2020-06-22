@@ -36,13 +36,13 @@
           <% end %>
           <% if my_apply = current_user.applications.find_by(post_id: @post.id) %>
           <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></p>
-          <a href="/applications/<%=my_apply.id%>" data-method=delete class="apply-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue" style="margin-top: 3px;margin-left: 1em;">
+          <a href="/applications/<%=my_apply.id%>" data-method=delete class="apply-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue" style="margin-left: 1em;">
             un-Apply
             <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
           <% else %>
           <!-- apply-btn -->
           <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></p>
-          <a href="/applications?post_id=<%=@post.id %>" data-method=post class="apply-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue" style="margin-top: 3px;margin-left: 1em;">
+          <a href="/applications?post_id=<%=@post.id %>" data-method=post class="apply-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent button_blue" style="margin-left: 1em;">
             Apply
             <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
           <% end %>
