@@ -45,7 +45,7 @@ RSpec.describe '応募機能', type: :system do
     end
   end
   describe '応募解除機能#destroy' do
-    context '投稿詳細画面からブックマーク解除ボタンを押した場合' do
+    context '投稿詳細画面から応募解除ボタンを押した場合' do
       it '応募一覧画面に表示されない' do
         act_as applicant do
           visit post_path(post)

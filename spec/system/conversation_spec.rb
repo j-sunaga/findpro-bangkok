@@ -5,7 +5,7 @@ RSpec.describe '会話機能', type: :system do
   let!(:recipient) { create(:recruiter) }
   let!(:conversation) { create(:conversation, sender: sender, recipient: recipient) }
   describe '一覧機能#index' do
-    context 'sederで会話一覧にアクセスした場合' do
+    context 'senderで会話一覧にアクセスした場合' do
       it 'recipientが表示される' do
         act_as sender do
           visit conversations_path

@@ -36,7 +36,7 @@ RSpec.describe 'ブックマーク機能', type: :system do
     end
     context 'postのステータスがclosedの場合' do
       let!(:post_closed) { create(:post, status: :closed) }
-      it '応募ボタンが投稿詳細画面に表示されない' do
+      it 'ブックマークボタンが投稿詳細画面に表示されない' do
         act_as applicant do
           visit post_path(post_closed)
           expect(page).to_not have_content 'bookmark'
