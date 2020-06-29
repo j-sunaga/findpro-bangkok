@@ -4,7 +4,7 @@
     <td>
       <% if conversation.target_user(current_user).present? %>
       <% if conversation.new_message.present? %>
-      <%= link_to "aaa", conversation_messages_path(conversation)%>
+      <%= link_to "#{conversation.messages.last.body}", conversation_messages_path(conversation)%>
       <%  else %>
       <%= link_to 'send message', conversation_messages_path(conversation)%>
       <% end %>
