@@ -128,6 +128,7 @@
     <div class="row main2 mdl-shadow--2dp" style="margin-top: 30px;">
       <p class="small_title">Comments</p>
       <%= render partial: 'comments/index', locals: { comments: @comments,post: @post } %>
+       <div id="comment-error"></div>
       <% if user_signed_in? %>
       <div class="comment-create">
         <%= render partial: 'comments/form', locals: { comment: @comment, post: @post } %>
