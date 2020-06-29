@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   has_many :recruiting_posts, class_name: 'Post', foreign_key: :recruiter_id, dependent: :destroy
-  has_many :selected_posts, class_name: 'Post', foreign_key: :selected_user_id
+  has_many :selected_posts, class_name: 'Post', foreign_key: :selected_user_id, dependent: :destroy
   has_many :senders, class_name: 'Conversation', foreign_key: :sender_id, dependent: :destroy
   has_many :recipients, class_name: 'Conversation', foreign_key: :recipient_id, dependent: :destroy
   has_many :messages, dependent: :destroy
@@ -27,6 +27,8 @@ class User < ApplicationRecord
   mount_uploader :profile_image, ImageUploader
 
   scope :applicants, -> { where(applicant_or_recruiter: 'applicant') }
+
+  scope :recruiters, -> { where(applicant_or_recruiter: 'recruiter') }
 
   def recruiter?
     applicant_or_recruiter == 'recruiter'
