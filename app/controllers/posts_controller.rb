@@ -53,6 +53,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to @post, notice: 'complete post'
     else
+      flash.now[:alert] = 'failed to post'
       render :new
     end
   end
@@ -60,8 +61,9 @@ class PostsController < ApplicationController
   def update
     destroy_all_categories if params[:post][:category_ids].blank?
     if @post.update(post_params)
-      redirect_to @post, notice: 'complete updated'
+      redirect_to @post, notice: 'complete update'
     else
+      flash.now[:alert] = 'failed to update'
       render :edit
     end
   end
@@ -96,13 +98,15 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     return if @post.recruiter_id == current_user.id
 
-    redirect_back(fallback_location: root_path, notice: 'no permission')
+    flash[:alert] = 'no permission'
+    redirect_back(fallback_location: root_path)
   end
 
   def check_post_status
     @post = Post.find(params[:id])
     return if @post.status == 'open'
 
-    redirect_back(fallback_location: root_path, notice: 'already closed')
+    flash[:alert] = 'already closed'
+    redirect_back(fallback_location: root_path)
   end
 end

@@ -24,8 +24,8 @@ body {
 }
 
 .main-content {
-  padding-top: 80px;
   width: 960px;
+  padding-top: 10px;
 }
 
 a,
@@ -289,11 +289,27 @@ thead {
 }
 
 //notice
-.notice {
-  font-size: 20px;
-  color: #00D59F;
-  margin-bottom: 15px;
+.notice-area {
+  font-size: 15px;
+  min-height: 15px;
+  padding-top:50px;
+  margin-right: auto;
+  margin-left: auto;
+  color: white;
+  text-align: center;
 }
+  .notice {
+    background-color: lightgreen;
+  }
+
+  .alert {
+    background-color: orange;
+    padding: 0px;
+    margin-bottom: 0px;
+    border: none;
+    border-radius: 0px;
+  }
+
 
 //footer
 .footer {
@@ -335,7 +351,6 @@ thead {
 }
 
 #error_explanation {
-  width: 450px;
   border: 2px solid red;
   padding: 7px 7px 0;
   margin-bottom: 20px;
@@ -376,7 +391,6 @@ thead {
   background-image: url("/assets/login02.jpg");
   background-size: cover;
   position: relative;
-  top: 50px;
   height: 1200px;
   margin-bottom: 0px;
 }
@@ -734,6 +748,13 @@ tbody>tr:nth-child(2n+1) {
 #comments_area {
   max-height: 400px;
   overflow: scroll;
+}
+
+.error_message{
+  background-color: lightpink;
+}
+.alert-warning{
+  color: red
 }
 
 .comment {
