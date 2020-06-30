@@ -33,6 +33,8 @@ gem 'devise'
 
 gem 'whenever', :require => false
 
+gem 'faker'
+
 # admin
 gem 'rails_admin', '~> 2.0'
 gem 'cancancan'
@@ -51,7 +53,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'launchy'
   #env
   gem 'dotenv-rails'
