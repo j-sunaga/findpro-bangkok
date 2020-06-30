@@ -5,7 +5,7 @@ class ApplicationsController < ApplicationController
   def create
     application = current_user.applications.build(post_id: params[:post_id])
     if application.save
-      ApplyMailer.apply_mail(current_user, application.post).deliver
+      # ApplyMailer.apply_mail(current_user, application.post).deliver
       redirect_back(fallback_location: root_path, notice: 'Successfully Applied')
     else
       render fallback_location

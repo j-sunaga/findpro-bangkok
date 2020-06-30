@@ -24,7 +24,7 @@ class PostsController < ApplicationController
   def select_user
     if @post.update(selected_user_id: params[:selected_user_id])
       @post.update(status: 'closed')
-      AssignMailer.assign_mail(User.find(params[:selected_user_id]), @post).deliver
+      # AssignMailer.assign_mail(User.find(params[:selected_user_id]), @post).deliver
       redirect_back(fallback_location: root_path, notice: 'Assign User!')
     else
       redirect_back(fallback_location: root_path, notice: 'Failed to Assign User!')
