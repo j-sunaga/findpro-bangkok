@@ -57,6 +57,17 @@ img {
 .navbar {
   background-color: #78BAF1;
   background-size: cover;
+  margin-bottom: 0px;
+}
+
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+   background-color: transparent;
+}
+
+.navbar-text {
+  margin-right: 1px;
+  margin-left: 1px;
 }
 
 .navbar-default .navbar-brand,
@@ -89,6 +100,7 @@ img {
 #navbarDropdownMenuLink {
   background-color: transparent;
   color: #fff;
+  font-size: 12px;
 }
 
 //sidebar
@@ -291,8 +303,6 @@ thead {
 //notice
 .notice-area {
   font-size: 15px;
-  min-height: 15px;
-  padding-top:50px;
   margin-right: auto;
   margin-left: auto;
   color: white;
