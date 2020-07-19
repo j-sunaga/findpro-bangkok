@@ -45,8 +45,8 @@
           Post Menu
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <p><%= link_to "New Posts", new_post_path %></p>
-          <p><%= link_to "My Recruiting Posts", myposts_posts_path %></p>
+          <%= link_to "New Posts", new_post_path, class:"dropdown-link" %>
+          <%= link_to "My Recruiting Posts", myposts_posts_path, class:"dropdown-link" %>
         </div>
       </li>
       <% end %>

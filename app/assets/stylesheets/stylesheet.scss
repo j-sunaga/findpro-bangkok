@@ -31,7 +31,6 @@ body {
 a,
 a:hover {
   text-decoration: none;
-  color: #23a9f6;
 }
 
 .row {
@@ -52,6 +51,14 @@ img {
   width: 60px;
   height: 60px;
 }
+//login
+.message-text a,
+.message-text a:visited,
+.foreget-password a:hover{
+  text-decoration: none;
+  color: #7a7a7a;
+}
+
 
 //navbar
 .navbar {
@@ -96,6 +103,16 @@ img {
 .dropdown {
   background-color: transparent;
 }
+
+.dropdown-link{
+  display: block;
+  text-align: right;
+}
+
+.dropdown-text a {
+  margin-left: auto;
+}
+
 
 #navbarDropdownMenuLink {
   background-color: transparent;

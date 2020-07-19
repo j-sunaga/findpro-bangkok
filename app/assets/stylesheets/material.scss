@@ -93,8 +93,8 @@ fieldset[disabled] .btn-primary:focus,
 .btn-primary.disabled.focus,
 .btn-primary[disabled].focus,
 fieldset[disabled] .btn-primary.focus {
-  background-color: #23a9f6;
-  border-color: #23a9f6;
+  // background-color: #23a9f6;
+  // border-color: #23a9f6;
   color: #ffffff; //ボタンの上にポインタを持ってきたり、クリックしたりした時のテキストの色
   opacity: 0.7;
 }
