@@ -1,4 +1,9 @@
 version: '3'
+volumes:
+  postgres_data:
+  public_data:
+  tmp_data:
+  log_data:
 services:
   db:
     image: postgres
@@ -10,11 +15,25 @@ services:
     build:
       context: ./
       dockerfile: ./docker/rails/Dockerfile
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bundle exec puma -C config/puma.rb
     ports:
       - '3000:3000'
     volumes:
-      - .:/app
+      - .:/findpro-bangkok
+      - public_data:/findpro-bangkok/public
+      - tmp_data:/findpro-bangkok/tmp
+      - log_data:/findpro-bangkok/log
     tty: true
     depends_on:
       - db
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - '80:80'
+    volumes:
+      - public_data:/findpro-bangkok/public
+      - tmp_data:/findpro-bangkok/tmp
+    depends_on:
+      - app

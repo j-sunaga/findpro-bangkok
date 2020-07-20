@@ -5,17 +5,18 @@ RUN apt-get update -qq && \
   build-essential \
   libpq-dev \
   nodejs \
-  vim \
+  vim
 
-RUN mkdir /app
-WORKDIR /app
+ENV RAILS_ROOT /findpro-bangkok
 
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
+RUN mkdir $RAILS_ROOT
+WORKDIR $RAILS_ROOT
+
+COPY Gemfile Gemfile
+COPY Gemfile.lock Gemfile.lock
 RUN gem install bundler:2.1.4
 RUN bundle install
 
-COPY . /app
+COPY . .
 
-
-EXPOSE 3000
+RUN mkdir -p tmp/sockets
