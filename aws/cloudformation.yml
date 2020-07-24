@@ -17,6 +17,12 @@ Metadata:
           - PublicSubnetCCIDR
           - PrivateSubnetACIDR
           - PrivateSubnetCCIDR
+      - Label:
+          default: "InternetALB Configuration"
+        Parameters:
+          - InternetALBName
+          - TargetGroupName1
+          - TargetGroupName2
     ParameterLabels:
       VPCCIDR:
         default: "VPC CIDR"
@@ -28,6 +34,12 @@ Metadata:
         default: "PrivateSubnetA CIDR"
       PrivateSubnetCCIDR:
         default: "PrivateSubnetC CIDR"
+      InternetALBName:
+        default: "InternetALBName"
+      TargetGroupName1:
+        default: "TargetGroupName1"
+      TargetGroupName2:
+        default: "TargetGroupName2"
 
 # ------------------------------------------------------------#
 # Input Parameters
@@ -62,6 +74,20 @@ Parameters:
 
   KeyName:
     Type: "AWS::EC2::KeyPair::KeyName"
+
+  #InternetALB
+  InternetALBName:
+    Type: String
+    Default: "alb"
+
+  #TargetGroupName
+  TargetGroupName1:
+    Type: String
+    Default: "tg-1"
+
+  TargetGroupName2:
+    Type: String
+    Default: "tg-2"
 
 Resources:
 # ------------------------------------------------------------#
@@ -229,6 +255,90 @@ Resources:
     Properties:
       SubnetId: !Ref PrivateSubnetC
       RouteTableId: !Ref PrivateRouteTableC
+# ------------------------------------------------------------#
+#  Security Group
+# ------------------------------------------------------------#
+
+# Security Group
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to client host
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        -
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        -
+          IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+# ------------------------------------------------------------#
+#  Target Group
+# ------------------------------------------------------------#
+  TargetGroup1:
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    Properties:
+      VpcId: !Ref VPC
+      Name: !Sub "${PJPrefix}-${TargetGroupName1}"
+      Protocol: HTTP
+      Port: 80
+      TargetType: ip
+
+  TargetGroup2:
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    Properties:
+      VpcId: !Ref VPC
+      Name: !Sub "${PJPrefix}-${TargetGroupName2}"
+      Protocol: HTTP
+      Port: 8080
+      TargetType: ip
+
+# ------------------------------------------------------------#
+#  Internet ALB
+# ------------------------------------------------------------#
+  InternetALB:
+    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+    Properties:
+      Name: !Sub "${PJPrefix}-${InternetALBName}"
+      Tags:
+        - Key: Name
+          Value: !Sub "${PJPrefix}-${InternetALBName}"
+      Scheme: "internet-facing"
+      LoadBalancerAttributes:
+        - Key: "deletion_protection.enabled"
+          Value: false
+        - Key: "idle_timeout.timeout_seconds"
+          Value: 60
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      Subnets:
+        - !Ref PublicSubnetA
+        - !Ref PublicSubnetC
+
+  ALBListener1:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+        - TargetGroupArn: !Ref TargetGroup1
+          Type: forward
+      LoadBalancerArn: !Ref InternetALB
+      Port: 80
+      Protocol: HTTP
+
+  ALBListener2:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+        - TargetGroupArn: !Ref TargetGroup2
+          Type: forward
+      LoadBalancerArn: !Ref InternetALB
+      Port: 8080
+      Protocol: HTTP
+
 # ------------------------------------------------------------#
 # Output Parameters
 # ------------------------------------------------------------#
