@@ -23,6 +23,19 @@ Metadata:
           - InternetALBName
           - TargetGroupName1
           - TargetGroupName2
+      - Label:
+          default: "Fargate for ECS Configuration"
+        Parameters:
+          - ECSClusterName
+          - ECSTaskName
+          - ECSTaskCPUUnit
+          - ECSTaskMemory
+          - ECSContainerNameWEB
+          - ECSContainerNameAPP
+          - ECSImageNameWEB
+          - ECSImageNameAPP
+          - ECSServiceName
+          - ECSTaskDesiredCount
     ParameterLabels:
       VPCCIDR:
         default: "VPC CIDR"
@@ -40,6 +53,24 @@ Metadata:
         default: "TargetGroupName1"
       TargetGroupName2:
         default: "TargetGroupName2"
+      ECSClusterName:
+        default: "ECSClusterName"
+      ECSTaskName:
+        default: "ECSTaskName"
+      ECSTaskCPUUnit:
+        default: "ECSTaskCPUUnit"
+      ECSTaskMemory:
+        default: "ECSTaskMemory"
+      ECSContainerNameWEB:
+        default: "ECSContainerNameWEB"
+      ECSContainerNameAPP:
+        default: "ECSContainerNameAPP"
+      ECSImageName:
+        default: "ECSImageName"
+      ECSServiceName:
+        default: "ECSServiceName"
+      ECSTaskDesiredCount:
+        default: "ECSTaskDesiredCount"
 
 # ------------------------------------------------------------#
 # Input Parameters
@@ -88,6 +119,57 @@ Parameters:
   TargetGroupName2:
     Type: String
     Default: "tg-2"
+
+  #ECSClusterName
+  ECSClusterName:
+    Type: String
+    Default: "cluster"
+
+  #ECSTaskName
+  ECSTaskName:
+    Type: String
+    Default: "task"
+
+  #ECSTaskCPUUnit
+  ECSTaskCPUUnit:
+    AllowedValues: [ 256, 512, 1024, 2048, 4096  ]
+    Type: String
+    Default: "256"
+
+  #ECSTaskMemory
+  ECSTaskMemory:
+    AllowedValues: [ 256, 512, 1024, 2048, 4096  ]
+    Type: String
+    Default: "512"
+
+  #ECSContainerName
+  ECSContainerNameWEB:
+    Type: String
+    Default: "web"
+
+  #ECSContainerName
+  ECSContainerNameAPP:
+    Type: String
+    Default: "app"
+
+  #ECSImageName
+  ECSImageNameWEB:
+    Type: String
+    Default: "558063253575.dkr.ecr.ap-northeast-1.amazonaws.com/dg_zac_web:latest"
+
+  ECSImageNameAPP:
+    Type: String
+    Default: "558063253575.dkr.ecr.ap-northeast-1.amazonaws.com/dg_zac_php:latest"
+
+  #ECSServiceName
+  ECSServiceName:
+    Type: String
+    Default: "service"
+
+  #ECSTaskDesiredCount
+  ECSTaskDesiredCount:
+    Type: Number
+    Default: 1
 
 Resources:
 # ------------------------------------------------------------#
@@ -339,6 +421,108 @@ Resources:
       Port: 8080
       Protocol: HTTP
 
+# ------------------------------------------------------------#
+# ECS Cluster
+# ------------------------------------------------------------#
+  ECSCluster:
+    Type: "AWS::ECS::Cluster"
+    Properties:
+      ClusterName: !Sub "${PJPrefix}-${ECSClusterName}"
+
+# ------------------------------------------------------------#
+#  ECS LogGroup
+# ------------------------------------------------------------#
+  ECSLogGroup:
+    Type: "AWS::Logs::LogGroup"
+    Properties:
+      LogGroupName: !Sub "/ecs/logs/${PJPrefix}-ecs-group"
+
+# ------------------------------------------------------------#
+#  ECS Task Execution Role
+# ------------------------------------------------------------#
+  ECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${PJPrefix}-ECSTaskExecutionRolePolicy"
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+# ------------------------------------------------------------#
+#  ECS TaskDefinition
+# ------------------------------------------------------------#
+  ECSTaskDefinition:
+    Type: "AWS::ECS::TaskDefinition"
+    Properties:
+      Cpu: !Ref ECSTaskCPUUnit
+      ExecutionRoleArn: !Ref ECSTaskExecutionRole
+      Family: !Sub "${PJPrefix}-${ECSTaskName}"
+      Memory: !Ref ECSTaskMemory
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+
+#ContainerDefinitions
+      ContainerDefinitions:
+        - Name: !Sub "${PJPrefix}-${ECSContainerNameWEB}"
+          Image: !Ref ECSImageNameWEB
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref ECSLogGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref PJPrefix
+          MemoryReservation: 128
+          PortMappings:
+            - HostPort: 80
+              Protocol: tcp
+              ContainerPort: 80
+        - Name: !Sub "${PJPrefix}-${ECSContainerNameAPP}"
+          Image: !Ref ECSImageNameAPP
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref ECSLogGroup
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: !Ref PJPrefix
+          MemoryReservation: 128
+          PortMappings:
+            - HostPort: 9000
+              Protocol: tcp
+              ContainerPort: 9000
+
+# ------------------------------------------------------------#
+#  ECS Service
+# ------------------------------------------------------------#
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: ALBListener1
+    Properties:
+      Cluster: !Ref ECSCluster
+      DesiredCount: !Ref ECSTaskDesiredCount
+      LaunchType: FARGATE
+      LoadBalancers:
+        -
+          TargetGroupArn: !Ref TargetGroup1
+          ContainerPort: 80
+          ContainerName: !Sub "${PJPrefix}-${ECSContainerNameWEB}"
+      NetworkConfiguration:
+       AwsvpcConfiguration:
+           AssignPublicIp: ENABLED
+           SecurityGroups:
+             - !Ref InstanceSecurityGroup
+           Subnets:
+             - !Ref PublicSubnetA
+             - !Ref PublicSubnetC
+      ServiceName: !Sub "${PJPrefix}-${ECSServiceName}"
+      TaskDefinition: !Ref ECSTaskDefinition
 # ------------------------------------------------------------#
 # Output Parameters
 # ------------------------------------------------------------#
