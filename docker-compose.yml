@@ -15,16 +15,20 @@ services:
     build:
       context: ./
       dockerfile: ./docker/rails/Dockerfile
-    command: bundle exec puma -C config/puma.rb
+    #command: bundle exec puma -C config/puma.rb
+    command: dockerize -wait tcp://db:5432 -timeout 20s bundle exec unicorn -p 3000 -c config/unicorn.conf.rb
     ports:
       - '3000:3000'
     volumes:
-      - .:/findpro-bangkok
+      - .:/findpro-bangkok:cached
       - public_data:/findpro-bangkok/public
-      - tmp_data:/findpro-bangkok/tmp
+      - tmp_data:/findpro-bangkok/tmp/sockets
       - log_data:/findpro-bangkok/log
     tty: true
+    stdin_open: true
     depends_on:
+      - db
+    links:
       - db
   nginx:
     build:
@@ -34,6 +38,6 @@ services:
       - '80:80'
     volumes:
       - public_data:/findpro-bangkok/public
-      - tmp_data:/findpro-bangkok/tmp
+      - tmp_data:/findpro-bangkok/tmp/sockets
     depends_on:
       - app
