@@ -36,6 +36,19 @@ Metadata:
           - ECSImageNameAPP
           - ECSServiceName
           - ECSTaskDesiredCount
+      - Label:
+          default: "RDS Configuration"
+        Parameters:
+          - DBInstanceName
+          - MajorVersion
+          - MinorVersion
+          - DBInstanceClass
+          - DBInstanceStorageSize
+          - DBInstanceStorageType
+          - DBName
+          - DBMasterUserName
+          - DBPassword
+          - MultiAZ
     ParameterLabels:
       VPCCIDR:
         default: "VPC CIDR"
@@ -71,6 +84,26 @@ Metadata:
         default: "ECSServiceName"
       ECSTaskDesiredCount:
         default: "ECSTaskDesiredCount"
+      DBInstanceName:
+        default: "DBInstanceName"
+      MajorVersion:
+        default: "MajorVersion"
+      MinorVersion:
+        default: "MinorVersion"
+      DBInstanceClass:
+        default: "DBInstanceClass"
+      DBInstanceStorageSize:
+        default: "DBInstanceStorageSize"
+      DBInstanceStorageType:
+        default: "DBInstanceStorageType"
+      DBName:
+        default: "DBName"
+      DBMasterUserName:
+        default: "DBUserName"
+      DBPassword:
+        default: "DBPassword"
+      MultiAZ:
+        default: "MultiAZ"
 
 # ------------------------------------------------------------#
 # Input Parameters
@@ -78,6 +111,7 @@ Metadata:
 Parameters:
   PJPrefix:
     Type: String
+    Default: "findpro-bangkok"
 
   VPCCIDR:
     Type: String
@@ -105,6 +139,7 @@ Parameters:
 
   KeyName:
     Type: "AWS::EC2::KeyPair::KeyName"
+    Default: "task-app-key"
 
   #InternetALB
   InternetALBName:
@@ -170,6 +205,58 @@ Parameters:
   ECSTaskDesiredCount:
     Type: Number
     Default: 1
+
+  DBInstanceName:
+    Type: String
+    Default: "rds"
+
+  MajorVersion:
+    Type: String
+    Default: "12"
+    AllowedValues: [ "11", "12", "13" ]
+
+  MinorVersion:
+    Type: String
+    Default: "3"
+
+  DBInstanceClass:
+    Type: String
+    Default: "db.t2.micro"
+
+  DBInstanceStorageSize:
+    Type: String
+    Default: "20"
+
+  DBInstanceStorageType:
+    Type: String
+    Default: "gp2"
+
+  DBName:
+    Type: String
+    Default: "findpro"
+
+  DBMasterUserName:
+    Type: String
+    Default: "postgres"
+    NoEcho: true
+    MinLength: 1
+    MaxLength: 16
+    AllowedPattern: "[a-zA-Z][a-zA-Z0-9]*"
+    ConstraintDescription: "must begin with a letter and contain only alphanumeric characters."
+
+  DBPassword:
+    Default: "postgres"
+    NoEcho: true
+    Type: String
+    MinLength: 8
+    MaxLength: 41
+    AllowedPattern: "[a-zA-Z0-9]*"
+    ConstraintDescription: "must contain only alphanumeric characters."
+
+  MultiAZ:
+    Default: "false"
+    Type: String
+    AllowedValues: [ "true", "false" ]
 
 Resources:
 # ------------------------------------------------------------#
@@ -523,6 +610,74 @@ Resources:
              - !Ref PublicSubnetC
       ServiceName: !Sub "${PJPrefix}-${ECSServiceName}"
       TaskDefinition: !Ref ECSTaskDefinition
+# ------------------------------------------------------------#
+#  DBInstance Postgres
+# ------------------------------------------------------------#
+  DBInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBInstanceIdentifier: !Sub "${PJPrefix}-${DBInstanceName}"
+      Engine: postgres
+      EngineVersion: !Sub "${MajorVersion}.${MinorVersion}"
+      DBInstanceClass: !Ref DBInstanceClass
+      AllocatedStorage: !Ref DBInstanceStorageSize
+      StorageType: !Ref DBInstanceStorageType
+      DBName: !Ref DBName
+      MasterUsername: !Ref DBMasterUserName
+      MasterUserPassword: !Ref DBPassword
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      PubliclyAccessible: false
+      MultiAZ: !Ref MultiAZ
+      PreferredBackupWindow: "18:00-18:30"
+      PreferredMaintenanceWindow: "sat:19:00-sat:19:30"
+      AutoMinorVersionUpgrade: false
+      DBParameterGroupName: !Ref DBParameterGroup
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      CopyTagsToSnapshot: true
+      BackupRetentionPeriod: 7
+      Tags:
+        - Key: "Name"
+          Value: !Ref DBInstanceName
+    DeletionPolicy: "Delete"
+# ------------------------------------------------------------#
+#  DBSubnetGroup
+# ------------------------------------------------------------#
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupName: !Sub "${PJPrefix}-${DBInstanceName}-subnet"
+      DBSubnetGroupDescription: "-"
+      SubnetIds:
+        - !Ref PrivateSubnetA
+        - !Ref PrivateSubnetC
+# ------------------------------------------------------------#
+#  DBParameterGroup
+# ------------------------------------------------------------#
+  DBParameterGroup:
+    Type: "AWS::RDS::DBParameterGroup"
+    Properties:
+      Family: !Sub "postgres${MajorVersion}"
+      Description: !Sub "${PJPrefix}-${DBInstanceName}-parm"
+# ------------------------------------------------------------#
+#  SecurityGroup for RDS (MySQL)
+# ------------------------------------------------------------#
+  RDSSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      VpcId: !Ref VPC
+      GroupName: !Sub "${PJPrefix}-${DBInstanceName}-sg"
+      GroupDescription: "-"
+      Tags:
+        - Key: "Name"
+          Value: !Sub "${PJPrefix}-${DBInstanceName}-sg"
+# Rule
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref InstanceSecurityGroup
+
 # ------------------------------------------------------------#
 # Output Parameters
 # ------------------------------------------------------------#
