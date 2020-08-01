@@ -584,6 +584,11 @@ Resources:
             - HostPort: 9000
               Protocol: tcp
               ContainerPort: 9000
+          Environment:
+            - Name: DATABASE_HOST
+              Value: !Ref DBInstance
+            - Name: DATABASE
+              Value: !Ref DBName
 
 # ------------------------------------------------------------#
 #  ECS Service
