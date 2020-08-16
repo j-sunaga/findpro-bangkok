@@ -86,6 +86,6 @@ test:
 #
 production:
   <<: *default
-  database: findpro-bangkok_production
-  username: findpro-bangkok
-  password: <%= ENV['FINDPRO-BANGKOK_DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST']%>
+  database: <%= ENV['DATABASE']%>
+  password: <%= ENV['DATABASE_PASSWORD']%>
