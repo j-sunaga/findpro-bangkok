@@ -1,0 +1,32 @@
+version: '3'
+volumes:
+  tmp_data:
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./docker-production/nginx/Dockerfile
+    ports:
+      - '80:80'
+    volumes:
+      - tmp_data:/findpro-bangkok/tmp/sockets
+    depends_on:
+      - app
+    links:
+      - app
+  app:
+    build:
+      context: ./
+      dockerfile: ./docker-production/rails/Dockerfile
+    command: bundle exec puma -e production -C config/puma.rb
+    #command: bundle exec unicorn -p 3000 -c config/unicorn.conf.rb
+    tty: true
+    stdin_open: true
+    volumes:
+      - tmp_data:/findpro-bangkok/tmp/sockets
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
