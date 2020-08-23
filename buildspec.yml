@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - IMAGE_URI_NGINX=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_NGINX
+      - IMAGE_URI_APP=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_APP
+      - $(aws ecr get-login --no-include-email --region ${AWS_DEFAULT_REGION})
+  build:
+    commands:
+      - docker-compose -f docker-compose-production.yml build
+      - docker tag src_nginx:$IMAGE_TAG $IMAGE_URI_NGINX:$IMAGE_TAG
+      - docker tag src_app:$IMAGE_TAG $IMAGE_URI_APP:$IMAGE_TAG
+  post_build:
+    commands:
+      - docker push $IMAGE_URI_NGINX:$IMAGE_TAG
+      - docker push $IMAGE_URI_APP:$IMAGE_TAG
+      - cat taskdef-production-template.json | sed -e s@\<IMAGE_NGINX_NAME\>@$IMAGE_URI_NGINX:$IMAGE_TAG@ -e s@\<IMAGE_PHP_NAME\>@$IMAGE_URI_APP:$IMAGE_TAG@ > taskdef.json
+artifacts:
+  files:
+    - appspec.yaml
+    - taskdef.json
