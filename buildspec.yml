@@ -9,8 +9,8 @@ phases:
   build:
     commands:
       - docker-compose -f docker-compose-production.yml build
-      - docker tag src_nginx:$IMAGE_TAG $IMAGE_URI_NGINX:$IMAGE_TAG
-      - docker tag src_app:$IMAGE_TAG $IMAGE_URI_APP:$IMAGE_TAG
+      - docker tag findpro-bangkok_nginx:$IMAGE_TAG $IMAGE_URI_NGINX:$IMAGE_TAG
+      - docker tag findpro-bangkok_app:$IMAGE_TAG $IMAGE_URI_APP:$IMAGE_TAG
   post_build:
     commands:
       - docker push $IMAGE_URI_NGINX:$IMAGE_TAG
