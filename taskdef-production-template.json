@@ -1,0 +1,100 @@
+{
+  "executionRoleArn": "arn:aws:iam::731891866895:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "<IMAGE_NGINX_NAME>",
+      "essential": false,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/findpro-bangkok/tmp/sockets",
+          "sourceVolume": "tmp"
+        }
+      ],
+      "dependsOn": [
+        {
+          "containerName": "app",
+          "condition": "START"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/task-def",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    },
+    {
+      "name": "app",
+      "image": "<IMAGE_APP_NAME>",
+      "essential": true,
+      "command": [
+        "bundle",
+        "exec",
+        "puma",
+        "-e",
+        "production",
+        "-C",
+        "config/puma.rb"
+      ],
+      "environment": [
+        {
+          "name": "DATABASE",
+          "value": "findpro"
+        },
+        {
+          "name": "DATABASE_HOST",
+          "value": "database-1.c2jxl2tdrtro.ap-northeast-1.rds.amazonaws.com"
+        },
+        {
+          "name": "DATABASE_PASSWORD",
+          "value": "postgres"
+        }
+      ],
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/findpro-bangkok/tmp/sockets",
+          "sourceVolume": "tmp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/task-def",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "family": "task-def",
+  "volumes": [
+    {
+      "efsVolumeConfiguration": null,
+      "name": "tmp",
+      "host": {
+        "sourcePath": null
+      },
+      "dockerVolumeConfiguration": null
+    }
+  ]
+}
