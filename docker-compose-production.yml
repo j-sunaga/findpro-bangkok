@@ -1,4 +1,7 @@
 version: '3'
+volumes:
+  tmp_data:
+  public_data:
 services:
   nginx:
     build:
@@ -6,6 +9,9 @@ services:
       dockerfile: ./docker-production/nginx/Dockerfile
     ports:
       - '80:80'
+    volumes:
+      - public_data:/findpro-bangkok/public
+      - tmp_data:/findpro-bangkok/tmp/sockets
     depends_on:
       - app
     links:
@@ -14,5 +20,15 @@ services:
     build:
       context: ./
       dockerfile: ./docker-production/rails/Dockerfile
+    command: bundle exec puma -e production -C config/puma.rb
+    volumes:
+      - tmp_data:/findpro-bangkok/tmp/sockets
+      - public_data:/findpro-bangkok/public
     tty: true
     stdin_open: true
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
