@@ -24,6 +24,7 @@ gem 'kaminari', '~> 0.17.0'
 # Image
 gem 'carrierwave', '~> 2.0'
 gem "mini_magick"
+gem 'fog-aws'
 
 # Backend
 gem 'bootsnap', '>= 1.1.0', require: false

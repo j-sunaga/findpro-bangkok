@@ -133,9 +133,10 @@ Parameters:
     Type: String
     Default: "10.0.200.0/24"
 
-  Ec2ImageId:
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  #ECS/EC2
+  ECSAMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id
 
   KeyName:
     Type: "AWS::EC2::KeyPair::KeyName"
@@ -190,11 +191,11 @@ Parameters:
   #ECSImageName
   ECSImageNameWEB:
     Type: String
-    Default: "558063253575.dkr.ecr.ap-northeast-1.amazonaws.com/dg_zac_web:latest"
+    Default: "558063253575.dkr.ecr.ap-northeast-1.amazonaws.com/findpro-bangkok_nginx:latest"
 
   ECSImageNameAPP:
     Type: String
-    Default: "558063253575.dkr.ecr.ap-northeast-1.amazonaws.com/dg_zac_php:latest"
+    Default: "558063253575.dkr.ecr.ap-northeast-1.amazonaws.com/findpro-bangkok_app:latest"
 
   #ECSServiceName
   ECSServiceName:
@@ -507,7 +508,6 @@ Resources:
       LoadBalancerArn: !Ref InternetALB
       Port: 8080
       Protocol: HTTP
-
 # ------------------------------------------------------------#
 # ECS Cluster
 # ------------------------------------------------------------#
@@ -553,8 +553,14 @@ Resources:
       Family: !Sub "${PJPrefix}-${ECSTaskName}"
       Memory: !Ref ECSTaskMemory
       NetworkMode: awsvpc
+      Volumes:
+        - Host:
+            SourcePath: "/var/lib/docker/vfs/dir/"
+          Name: "tmp_data"
       RequiresCompatibilities:
-        - FARGATE
+        - EC2
+      Cpu: '256'
+      Memory: '512'
 
 #ContainerDefinitions
       ContainerDefinitions:
@@ -566,11 +572,13 @@ Resources:
               awslogs-group: !Ref ECSLogGroup
               awslogs-region: !Ref "AWS::Region"
               awslogs-stream-prefix: !Ref PJPrefix
-          MemoryReservation: 128
           PortMappings:
             - HostPort: 80
               Protocol: tcp
               ContainerPort: 80
+          MountPoints:
+            - SourceVolume: "tmp_data"
+              ContainerPath: "/findpro-bangkok/tmp/sockets"
         - Name: !Sub "${PJPrefix}-${ECSContainerNameAPP}"
           Image: !Ref ECSImageNameAPP
           LogConfiguration:
@@ -579,17 +587,28 @@ Resources:
               awslogs-group: !Ref ECSLogGroup
               awslogs-region: !Ref "AWS::Region"
               awslogs-stream-prefix: !Ref PJPrefix
-          MemoryReservation: 128
           PortMappings:
-            - HostPort: 9000
+            - HostPort: 3000
               Protocol: tcp
-              ContainerPort: 9000
+              ContainerPort: 3000
           Environment:
             - Name: DATABASE_HOST
               Value: !Ref DBInstance
             - Name: DATABASE
               Value: !Ref DBName
-
+            - Name: DATABASE_PASSWORD
+              Value: !Ref DBPassword
+          MountPoints:
+            - SourceVolume: "tmp_data"
+              ContainerPath: "/findpro-bangkok/tmp/sockets"
+          Command:
+            - "bundle"
+            - "exec"
+            - "puma"
+            - "-e"
+            - "production"
+            - "-C"
+            - "config/puma.rb"
 # ------------------------------------------------------------#
 #  ECS Service
 # ------------------------------------------------------------#
@@ -599,22 +618,119 @@ Resources:
     Properties:
       Cluster: !Ref ECSCluster
       DesiredCount: !Ref ECSTaskDesiredCount
-      LaunchType: FARGATE
+      LaunchType: EC2
       LoadBalancers:
         -
           TargetGroupArn: !Ref TargetGroup1
           ContainerPort: 80
           ContainerName: !Sub "${PJPrefix}-${ECSContainerNameWEB}"
       NetworkConfiguration:
-       AwsvpcConfiguration:
-           AssignPublicIp: ENABLED
-           SecurityGroups:
-             - !Ref InstanceSecurityGroup
-           Subnets:
-             - !Ref PublicSubnetA
-             - !Ref PublicSubnetC
+        AwsvpcConfiguration:
+          SecurityGroups:
+            - !Ref InstanceSecurityGroup
+          Subnets:
+            - !Ref PublicSubnetA
+            - !Ref PublicSubnetC
       ServiceName: !Sub "${PJPrefix}-${ECSServiceName}"
       TaskDefinition: !Ref ECSTaskDefinition
+# ------------------------------------------------------------#
+# ECS EC2
+# ------------------------------------------------------------#
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+                - sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+      Path: /
+      RoleName: { "Fn::Join" : ["-", ["ecs-task", { "Ref" : "AWS::Region" }]] }
+
+  EC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: [ec2.amazonaws.com]
+          Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+      - PolicyName: ecs-service
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+              - 'ecs:CreateCluster'
+              - 'ecs:DeregisterContainerInstance'
+              - 'ecs:DiscoverPollEndpoint'
+              - 'ecs:Poll'
+              - 'ecs:RegisterContainerInstance'
+              - 'ecs:StartTelemetrySession'
+              - 'ecs:Submit*'
+              - 'logs:CreateLogStream'
+              - 'logs:PutLogEvents'
+              - 'ecr:GetAuthorizationToken'
+              - 'ecr:BatchGetImage'
+              - 'ecr:GetDownloadUrlForLayer'
+            Resource: '*'
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles: [!Ref 'EC2Role']
+      InstanceProfileName: ec2-profile
+
+  ECSInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles: [ !Ref TaskRole ]
+      InstanceProfileName: ecs-profile
+
+  LaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId: !Ref ECSAMI
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      SecurityGroups: [ !Ref InstanceSecurityGroup ]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          echo ECS_CLUSTER=${ECSCluster} >> /etc/ecs/ecs.config
+      InstanceType: "t2.micro"
+      BlockDeviceMappings:
+        - DeviceName: "/dev/xvda"
+          Ebs:
+            VolumeSize: "30"
+            VolumeType: "gp2"
+
+  EcsInstanceAsg:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    DependsOn: InstanceSecurityGroup
+    Properties:
+      VPCZoneIdentifier: [ !Ref PublicSubnetA, !Ref PublicSubnetC ]
+      LaunchConfigurationName: !Ref LaunchConfig
+      MinSize: '0'
+      MaxSize: '1'
+      DesiredCapacity: '1'
+      Tags:
+      - Key: Name
+        Value: 'ecs'
+        PropagateAtLaunch: true
+    UpdatePolicy:
+      AutoScalingReplacingUpdate:
+        WillReplace: 'true'
+
 # ------------------------------------------------------------#
 #  DBInstance Postgres
 # ------------------------------------------------------------#
