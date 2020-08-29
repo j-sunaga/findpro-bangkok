@@ -1,39 +1,12 @@
 version: '3'
 volumes:
-  postgres_data:
-  public_data:
   tmp_data:
-  log_data:
+  public_data:
 services:
-  db:
-    image: postgres
-    volumes:
-      - ./tmp/db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: 'postgres'
-  app:
-    build:
-      context: ./
-      dockerfile: ./docker/rails/Dockerfile
-    #command: bundle exec puma -C config/puma.rb
-    command: dockerize -wait tcp://db:5432 -timeout 20s bundle exec unicorn -p 3000 -c config/unicorn.conf.rb
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/findpro-bangkok:cached
-      - public_data:/findpro-bangkok/public
-      - tmp_data:/findpro-bangkok/tmp/sockets
-      - log_data:/findpro-bangkok/log
-    tty: true
-    stdin_open: true
-    depends_on:
-      - db
-    links:
-      - db
   nginx:
     build:
       context: ./
-      dockerfile: ./docker/nginx/Dockerfile
+      dockerfile: ./docker-production/nginx/Dockerfile
     ports:
       - '80:80'
     volumes:
@@ -41,3 +14,22 @@ services:
       - tmp_data:/findpro-bangkok/tmp/sockets
     depends_on:
       - app
+    links:
+      - app
+  app:
+    build:
+      context: ./
+      dockerfile: ./docker-production/rails/Dockerfile
+    command: bundle exec puma
+    volumes:
+      - .:/findpro-bangkok:cached
+      - tmp_data:/findpro-bangkok/tmp/sockets
+      - public_data:/findpro-bangkok/public
+    tty: true
+    stdin_open: true
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
