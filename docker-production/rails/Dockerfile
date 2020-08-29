@@ -16,7 +16,6 @@ RUN apt-get update -qq && \
   && rm -rf /var/lib/apt/lists/*
 
 ENV RAILS_ROOT /findpro-bangkok
-ENV RAILS_ENV production
 
 RUN mkdir $RAILS_ROOT
 WORKDIR $RAILS_ROOT
