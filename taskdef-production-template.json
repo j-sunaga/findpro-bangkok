@@ -55,12 +55,20 @@
       ],
       "environment": [
         {
+          "name": "AWS_ACCESS_KEY_ID",
+          "value": "AKIAYD3ZJPBDWZE475XP"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "value": "K838ez17EOWa5ECgwrv5eWkrL9g8qE8GFpb24eeu"
+        },
+        {
           "name": "DATABASE",
           "value": "findpro"
         },
         {
           "name": "DATABASE_HOST",
-          "value": "database-1.c2jxl2tdrtro.ap-northeast-1.rds.amazonaws.com"
+          "value": "database-2.c2jxl2tdrtro.ap-northeast-1.rds.amazonaws.com"
         },
         {
           "name": "DATABASE_PASSWORD",
@@ -69,6 +77,10 @@
         {
           "name": "RAILS_ENV",
           "value": "production"
+        },
+        {
+          "name": "RAILS_MASTER_KEY",
+          "value": "104d25017b2815c94826886555f9b0bd"
         }
       ],
       "mountPoints": [
