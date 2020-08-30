@@ -6,7 +6,7 @@ services:
   nginx:
     build:
       context: ./
-      dockerfile: ./docker-production/nginx/Dockerfile
+      dockerfile: ./docker/nginx/Dockerfile
     ports:
       - '80:80'
     volumes:
@@ -19,7 +19,7 @@ services:
   app:
     build:
       context: ./
-      dockerfile: ./docker-production/rails/Dockerfile
+      dockerfile: ./docker/rails/Dockerfile
     command: bundle exec puma
     volumes:
       - .:/findpro-bangkok:cached
