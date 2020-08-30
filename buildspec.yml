@@ -15,7 +15,7 @@ phases:
     commands:
       - docker push $IMAGE_URI_NGINX:$IMAGE_TAG
       - docker push $IMAGE_URI_APP:$IMAGE_TAG
-      - cat taskdef-production-template.json | sed -e s@\<IMAGE_NGINX_NAME\>@$IMAGE_URI_NGINX:$IMAGE_TAG@ -e s@\<IMAGE_PHP_NAME\>@$IMAGE_URI_APP:$IMAGE_TAG@ > taskdef.json
+      - cat taskdef-production-template.json | sed -e s@\<IMAGE_NGINX_NAME\>@$IMAGE_URI_NGINX:$IMAGE_TAG@ -e s@\<IMAGE_APP_NAME\>@$IMAGE_URI_APP:$IMAGE_TAG@ > taskdef.json
 artifacts:
   files:
     - appspec.yaml
