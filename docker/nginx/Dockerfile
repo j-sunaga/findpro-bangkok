@@ -4,7 +4,7 @@ FROM nginx:1.15.8
 RUN rm -f /etc/nginx/conf.d/*
 
 # Nginxの設定ファイルをコンテナにコピー
-COPY /docker-production/nginx/nginx.conf /etc/nginx/conf.d/findpro-bangkok.conf
+COPY /docker/nginx/nginx.conf /etc/nginx/conf.d/findpro-bangkok.conf
 
 # 画像などのpublicファイルはnginxに配置
 RUN mkdir -p /findpro-bangkok/public
