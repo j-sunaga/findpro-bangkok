@@ -55,14 +55,6 @@
       ],
       "environment": [
         {
-          "name": "AWS_ACCESS_KEY_ID",
-          "value": "AKIAYD3ZJPBDWZE475XP"
-        },
-        {
-          "name": "AWS_SECRET_ACCESS_KEY",
-          "value": "K838ez17EOWa5ECgwrv5eWkrL9g8qE8GFpb24eeu"
-        },
-        {
           "name": "DATABASE",
           "value": "findpro"
         },
