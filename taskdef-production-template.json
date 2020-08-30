@@ -17,6 +17,11 @@
           "readOnly": null,
           "containerPath": "/findpro-bangkok/tmp/sockets",
           "sourceVolume": "tmp"
+        },
+        {
+          "readOnly": null,
+          "containerPath": "/findpro-bangkok/public",
+          "sourceVolume": "public_data"
         }
       ],
       "dependsOn": [
@@ -60,6 +65,10 @@
         {
           "name": "DATABASE_PASSWORD",
           "value": "postgres"
+        },
+        {
+          "name": "RAILS_ENV",
+          "value": "production"
         }
       ],
       "mountPoints": [
@@ -67,6 +76,11 @@
           "readOnly": null,
           "containerPath": "/findpro-bangkok/tmp/sockets",
           "sourceVolume": "tmp"
+        },
+        {
+          "readOnly": null,
+          "containerPath": "/findpro-bangkok/public",
+          "sourceVolume": "public_data"
         }
       ],
       "logConfiguration": {
@@ -91,6 +105,14 @@
     {
       "efsVolumeConfiguration": null,
       "name": "tmp",
+      "host": {
+        "sourcePath": null
+      },
+      "dockerVolumeConfiguration": null
+    },
+    {
+      "efsVolumeConfiguration": null,
+      "name": "public_data",
       "host": {
         "sourcePath": null
       },
