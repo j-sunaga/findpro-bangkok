@@ -14,7 +14,6 @@ CSV.foreach('db/csv/recruiter.csv', headers: true) do |row|
     content: Faker::Quote.most_interesting_man_in_the_world,
     email: row['email'],
     applicant_or_recruiter: 'recruiter',
-    profile_image: open("./db/fixtures/user_#{rand(1..5)}.jpg"),
     admin: false,
     password: '123456'
   )
@@ -23,7 +22,6 @@ CSV.foreach('db/csv/recruiter.csv', headers: true) do |row|
     title: row['title'],
     detail: Faker::Quote.most_interesting_man_in_the_world,
     deadline: Faker::Time.between(from: DateTime.now, to: DateTime.now + 14),
-    post_image: open("./db/fixtures/post_#{rand(1..5)}.jpg"),
     status: 'open',
     recruiter_id: recruiter.id
   )
@@ -37,7 +35,6 @@ CSV.foreach('db/csv/applicant.csv', headers: true) do |row|
     content: Faker::Quote.most_interesting_man_in_the_world,
     email: row['email'],
     applicant_or_recruiter: 'applicant',
-    profile_image: open("./db/fixtures/user_#{rand(1..5)}.jpg"),
     admin: false,
     password: '123456'
   )
