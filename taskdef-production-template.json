@@ -53,26 +53,34 @@
         "-C",
         "config/puma.rb"
       ],
-      "environment": [
+      "secrets": [
         {
-          "name": "DATABASE",
-          "value": "findpro"
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/access-id-aws",
+          "name": "AWS_ACCESS_KEY_ID"
         },
         {
-          "name": "DATABASE_HOST",
-          "value": "database-2.c2jxl2tdrtro.ap-northeast-1.rds.amazonaws.com"
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/secret-key-aws",
+          "name": "AWS_SECRET_ACCESS_KEY"
         },
         {
-          "name": "DATABASE_PASSWORD",
-          "value": "postgres"
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/database-pass",
+          "name": "DATABASE_PASSWORD"
         },
         {
-          "name": "RAILS_ENV",
-          "value": "production"
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/database-host",
+          "name": "DATABASE_HOST"
         },
         {
-          "name": "RAILS_MASTER_KEY",
-          "value": "104d25017b2815c94826886555f9b0bd"
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/rails-env",
+          "name": "RAILS_ENV"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/database",
+          "name": "DATABASE"
+        },
+        {
+          "valueFrom": "arn:aws:ssm:ap-northeast-1:558063253575:parameter/rails-key",
+          "name": "RAILS_MASTER_KEY"
         }
       ],
       "mountPoints": [
