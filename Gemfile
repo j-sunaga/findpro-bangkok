@@ -22,7 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'kaminari', '~> 0.17.0'
 
 # Image
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 gem "mini_magick"
 gem 'fog-aws'
 
