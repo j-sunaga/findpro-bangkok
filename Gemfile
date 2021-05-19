@@ -10,7 +10,7 @@ gem 'rails', '~> 5.2.4'
 
 # Middleware
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
 gem 'unicorn'
 
 # View/Front
